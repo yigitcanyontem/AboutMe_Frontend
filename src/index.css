@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.grad{
+  margin: 0;
+  background-size: cover;
+  background-position: center center;
+  background-blend-mode: color;
+  background-image: linear-gradient(to right top, #481fa6, #005ac8, #007dc8, #0099b7, #44b1a8);
+  width: 100vw;
+  height: 100vh;
+}
