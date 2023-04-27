@@ -3,7 +3,7 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 import Movies from "./components/movie/Movies";
 import MainPage from "./components/page/MainPage";
-import AddUser from "./AddUser";
+import AddUser from "./components/user/AddUser";
 import Movie from "./components/movie/Movie";
 import Show from "./components/show/Show";
 import Shows from "./components/show/Shows";
