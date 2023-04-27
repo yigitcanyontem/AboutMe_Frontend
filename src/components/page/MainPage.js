@@ -18,7 +18,7 @@ export default function MainPage() {
         }
     };
     const buttonChange = (event) => {
-        navigate(`/movie/${moviename}/${year}`)
+        navigate(`/movie/search/${moviename}/${year}`)
         window.location.reload()
     };
 

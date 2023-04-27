@@ -1,7 +1,7 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
-import MainPage from "./MainPage";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import MainPage from "../page/MainPage";
 
 export default function Movies() {
     const [movies, setMovies] = useState([]);
@@ -31,7 +31,7 @@ export default function Movies() {
                                 <ul className="list-group list-group-flush">
                                     <li className="list-group-item">
                                         <b>Title: </b>
-                                        {movie.original_title}
+                                        <Link to={`/movie/${movie.id}`}>{movie.original_title}</Link>
                                     </li>
                                     <li className="list-group-item">
                                         <img src={`${movie.poster_path}`} alt={"movie"}/>
