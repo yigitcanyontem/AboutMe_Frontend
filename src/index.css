@@ -9,6 +9,8 @@ body {
 }
 
 html{
+  background-color: #1f1e1a;
+
   overflow-x: hidden;
 }
 
@@ -26,6 +28,20 @@ code {
   width: 100vw;
   height: 100vh;
 }
+
+
+.page{
+  margin: 0;
+  background-size: cover;
+  background-position: center ;
+  background-blend-mode: color;
+  background-color: #1f1e1a;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+
+}
+
 
 .lib_bg{
   max-width:100%;
@@ -57,8 +73,22 @@ code {
   transform: scale(1.2);
 }
 
+
+.search_img{
+  max-width:100%;
+  width:200px;
+  margin: 10px 10px 10px 10px;
+  border-radius: 15px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.search_img:hover {
+  transform: scale(1.2);
+}
+
+
 .navbar_color{
-  background-color: rgb(61,55,39);
+  background-color: rgb(57, 58, 42);
   position: fixed;
 }
 
@@ -95,4 +125,11 @@ code {
 .search_bar{
   display:flex;
   flex-direction: row
+}
+
+.spinner {
+  position: fixed;
+  z-index: 1031;
+  top: 50%;
+  left: 50%;
 }

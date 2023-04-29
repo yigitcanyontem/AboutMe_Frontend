@@ -35,7 +35,7 @@ function AddUser() {
     }
 
     return (
-    <div className={"grad"}>
+    <div className={"page text-light"}>
         <div className={"container pt-5 "}>
             <div className={"row"}>
                 <div className={"col-md-6 offset-md-3 border rounded p-4 mt-2 shadow "}>
@@ -69,7 +69,7 @@ function AddUser() {
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email address</label>
                             <input type="email" className="form-control" aria-describedby="emailHelp" name={"email"} value={email} onChange={(e)=>onInputChange(e)}/>
-                            <div id="emailHelp" className="form-text text-black">We'll never share your email with anyone else.</div>
+                            <div id="emailHelp" className="form-text text-light">We'll never share your email with anyone else.</div>
                         </div>
                         <button type="submit" className="btn btn-dark">Submit</button>
                         <Link type="submit" className="btn btn-danger mx-2" to={"/"}>Cancel</Link>

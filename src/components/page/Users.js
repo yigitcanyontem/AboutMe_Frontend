@@ -10,7 +10,7 @@ export default function Users() {
     let [albums, setAlbums] = useState([]);
     let [socialMedia, setSocialMedia] = useState([]);
     let { usersid } = useParams();
-
+    const [isReady, setIsReady] = React.useState(false);
     useEffect(() => {
         loadCountries();
     }, []);
@@ -37,8 +37,17 @@ export default function Users() {
         setBooks(books)
         setAlbums(albums)
         setSocialMedia(socialMedia)
+        setIsReady(true)
     };
-
+    if(!isReady) {
+        return (
+            <div className="text-center">
+                <div className="spinner-border spinner" role="status">
+                    <span className="sr-only"></span>
+                </div>
+            </div>
+        )
+    }
 
 
 
