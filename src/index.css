@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html{
+  overflow-x: hidden;
 }
 
 code {
@@ -20,4 +25,74 @@ code {
   background-image: linear-gradient(to right top, #481fa6, #005ac8, #007dc8, #0099b7, #44b1a8);
   width: 100vw;
   height: 100vh;
+}
+
+.lib_bg{
+  max-width:100%;
+  width:100%;
+  margin: 0;
+  background-size: cover;
+  background-position: center center;
+  background-image: url("assets/bg.jpg");
+  background-color: #cccccc;
+  height: 100%;
+}
+
+.list_container {
+  max-width:100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.img{
+  max-width:100%;
+  width:200px;
+  margin: 10px 10px 10px 10px;
+  border-radius: 15px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.img:hover {
+  transform: scale(1.2);
+}
+
+.navbar_color{
+  background-color: rgb(61,55,39);
+  position: fixed;
+}
+
+.portrait{
+  max-height: 280px;
+  width: auto;
+  background-color: rgb(182,173,168);
+  align-content: center;
+}
+
+.social-icons {
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.social-icons a {
+  display: inline-block;
+  margin-right: 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2);
+}
+
+.social-icons img {
+  height: 40px;
+  width: auto;
+}
+
+.search_bar{
+  display:flex;
+  flex-direction: row
 }

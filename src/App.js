@@ -7,9 +7,12 @@ import AddUser from "./components/user/AddUser";
 import Movie from "./components/movie/Movie";
 import Show from "./components/show/Show";
 import Shows from "./components/show/Shows";
+import Users from "./components/page/Users";
+import Navbar from "./components/navbar/Navbar";
 function App() {
   return (
       <div className={"App"}>
+        <Navbar></Navbar>
         <Router>
           <Routes>
             <Route exact path={"/search/movie/:moviename/:year"} element={<Movies/>}></Route>
@@ -21,7 +24,8 @@ function App() {
               <Route exact path={"/tv/:showid"} element={<Show/>}></Route>
 
             <Route exact path={"/"} element={<MainPage/>}></Route>
-            <Route exact path={"/user"} element={<AddUser/>}></Route>
+            <Route exact path={"/user/create"} element={<AddUser/>}></Route>
+            <Route exact path={"/user/:usersid"} element={<Users/>}></Route>
           </Routes>
         </Router>
       </div>

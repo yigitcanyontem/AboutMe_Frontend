@@ -23,14 +23,14 @@ export default function MainPage() {
     };
 
     return (
+
         <div id="main-search" className="content-dark hidden-sm hidden-xs">
             <input
                 name="keyword"
                 autoComplete="off"
                 type="search"
                 value={moviename}
-                onChange={handleInputChange}
-            />
+                onChange={handleInputChange}/>
             <div className="form-outline">
                 <input min="1900" max="2023" type="number" id="typeNumber" className="form-control" name={"year"} onChange={handleInputChange}/>
                 <label className="form-label" htmlFor="typeNumber">
