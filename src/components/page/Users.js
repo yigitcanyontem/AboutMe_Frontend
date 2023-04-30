@@ -9,27 +9,29 @@ export default function Users() {
     let [books,  setBooks] = useState([]);
     let [albums, setAlbums] = useState([]);
     let [socialMedia, setSocialMedia] = useState([]);
+    let [description, setDescription] = useState([]);
     let { usersid } = useParams();
     const [isReady, setIsReady] = React.useState(false);
     useEffect(() => {
-        loadCountries();
+        loadUsers();
     }, []);
 
     const fetchData = async (endpoint) =>{
         const response = await axios.get(`http://localhost:8080/user/${endpoint}`)
 
-       return response.data;
+        return response.data;
     }
 
-    const loadCountries = async () => {
+    const loadUsers = async () => {
         const usersData = fetchData(`${usersid}`);
         const moviesData = fetchData(`favmovie/${usersid}`);
         const showsData = fetchData(`favshows/${usersid}`);
         const booksData = fetchData(`favbooks/${usersid}`);
         const albumsData = fetchData(`favalbums/${usersid}`);
         const socialMediaData = fetchData(`socialmedia/${usersid}`);
+        const descriptionData = fetchData(`description/${usersid}`);
 
-        [users,movies,shows,books,albums,socialMedia] = await Promise.all([usersData,moviesData,showsData,booksData,albumsData,socialMediaData])
+        [users,movies,shows,books,albums,socialMedia,description] = await Promise.all([usersData,moviesData,showsData,booksData,albumsData,socialMediaData,descriptionData])
 
         setUsers(users)
         setMovies(movies)
@@ -37,6 +39,7 @@ export default function Users() {
         setBooks(books)
         setAlbums(albums)
         setSocialMedia(socialMedia)
+        setDescription(description)
         setIsReady(true)
     };
     if(!isReady) {
@@ -63,67 +66,71 @@ export default function Users() {
                         <a target="_blank" href={`https://twitter.com/${socialMedia.twitteruser}`}><img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" alt="Twitter"/></a>
                     </div>
                 </div>
-                {users.map(user =>
+
                     <div className={"text-light list_container mt-5"}>
                         <img className={'portrait'} src={`https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81pRtNTxSCgYSMPwz1ocAXGYgyjUhjkx62K1A7FCqJxaqVNMaSe5-uHrK2HNIHuxBjbUod09NN58xAvmdTneRyvhWH2q=w1920-h1080`} alt={"portrait"}/>
                         <ul className={"text-start"}>
                             <li>
-                                <p>Username: {user.username}</p>
+                                <p>Username: {users.username}</p>
                             </li>
                             <li>
-                                <p>First Name: {user.firstName}</p>
+                                <p>First Name: {users.firstName}</p>
                             </li>
                             <li>
-                                <p>Last Name: {user.lastName}</p>
+                                <p>Last Name: {users.lastName}</p>
                             </li>
                             <li>
-                                <p>Email: {user.email}</p>
+                                <p>Email: {users.email}</p>
                             </li>
                             <li>
-                                <p>Country: {user.country.name}</p>
+                                <p>Country: {users.country.name}</p>
                             </li>
                             <li>
-                                <p>Date of Birth: {user.date_of_birth}</p>
+                                <p>Date of Birth: {users.date_of_birth}</p>
                             </li>
                         </ul>
                     </div>
-                )}
 
-                <h1 className={"display-5 text-light mt-5 "}>Top 5 Movies</h1>
-                <div className={'list_container'}>
-                {movies.map(movie =>
-                    <a target="_blank" href={`${movie.imdb_url}`}>
-                        <img className={'img'} src={`${movie.poster_path}`} alt={"movie"}/>
-                    </a>
-                )}
+                <h1 className={"display-6 text-light mt-5 text-light "}>Who am I?</h1>
+                <div className={'container  text-light'}>
+                    <p>{description.description}</p>
                 </div>
 
-                <h1 className={"display-5 text-light mt-5"}>Top 5 Shows</h1>
+                <h1 className={"display-5 text-light mt-5 "}>Favorite Movies</h1>
                 <div className={'list_container'}>
-                {shows.map(show =>
-                    <a target="_blank" href={`${show.imdb_url}`}>
-                        <img className={'img'} src={`${show.poster_path}`} alt={"show"}/>
-                    </a>
-                )}
+                    {movies.map(movie =>
+                        <a target="_blank" href={`${movie.imdb_url}`}>
+                            <img className={'img'} src={`${movie.poster_path}`} alt={"movie"}/>
+                        </a>
+                    )}
                 </div>
 
-                <h1 className={"display-5 text-light mt-5"}>Top 5 Books</h1>
+                <h1 className={"display-5 text-light mt-5"}>Favorite Shows</h1>
                 <div className={'list_container'}>
-                {books.map(book =>
-                    <a target="_blank" href={`${book.webReaderLink}`}>
-                        <img className={'img'} src={`${book.cover_url}`} alt={"book"}/>
-                    </a>
-                )}
+                    {shows.map(show =>
+                        <a target="_blank" href={`${show.imdb_url}`}>
+                            <img className={'img'} src={`${show.poster_path}`} alt={"show"}/>
+                        </a>
+                    )}
                 </div>
 
-                <h1 className={"display-5 text-light mt-5 "}>Top 5 Albums</h1>
+                <h1 className={"display-5 text-light mt-5"}>Favorite Books</h1>
                 <div className={'list_container'}>
-                {albums.map(album =>
-                    <a>
-                        <img className={'img mb-5'} src={`${album}`} alt={"album"}/>
-                    </a>
+                    {books.map(book =>
+                        <a target="_blank" href={`${book.webReaderLink}`}>
+                            <img className={'img'} src={`${book.cover_url}`} alt={"book"}/>
+                        </a>
+                    )}
+                </div>
 
-                )}
+                <h1 className={"display-5 text-light mt-5 "}>Favorite Albums</h1>
+                <div className={'list_container'}>
+                    {albums.map(album =>
+                        <a>
+                            <img className={'img mb-5'} src={`${album}`} alt={"album"}/>
+                        </a>
+
+                    )}
                 </div>
             </div>
         </div>

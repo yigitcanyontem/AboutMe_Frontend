@@ -23,7 +23,7 @@ export default function Book() {
                 `http://localhost:8080/book/${bookname}`
             );
             setBooks(result.data);
-            document.title = result.data.original_title
+            document.title = result.data.title
         } catch (error) {
             setHasError(true);
         }

@@ -14,6 +14,7 @@ import Books from "./components/book/Books";
 import Book from "./components/book/Book";
 import Welcome from "./components/Welcome";
 import SearchUsers from "./components/page/SearchUsers";
+import UpdateUsers from "./components/page/UpdateUsers";
 function App() {
   return (
       <div className={"App"}>
@@ -36,6 +37,7 @@ function App() {
                 <Route exact path={"/search/user/:username"} element={<SearchUsers/>}></Route>
                 <Route exact path={"/user/create"} element={<AddUser/>}></Route>
                 <Route exact path={"/user/:usersid"} element={<Users/>}></Route>
+                <Route exact path={"/user/update/:usersid"} element={<UpdateUsers/>}></Route>
           </Routes>
         </Router>
       </div>

@@ -58,8 +58,8 @@ code {
   max-width:100%;
   display: flex;
   justify-content: center;
-}
 
+}
 
 .img{
   max-width:100%;
@@ -67,6 +67,7 @@ code {
   margin: 10px 10px 10px 10px;
   border-radius: 15px;
   transition: transform 0.2s ease-in-out;
+
 }
 
 .img:hover {
@@ -89,6 +90,7 @@ code {
 
 .navbar_color{
   background-color: rgb(57, 58, 42);
+  top: 0px;
   position: fixed;
 }
 
@@ -112,7 +114,9 @@ code {
   margin-right: 20px;
   transition: transform 0.2s ease-in-out;
 }
-
+.carder {
+  object-fit: cover;
+}
 .social-icons a:hover {
   transform: scale(1.2);
 }
