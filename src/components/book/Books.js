@@ -34,7 +34,7 @@ export default function Books() {
     return (
         <div className={"page"}>
             <div className="container ">
-                <h2 className="text-center text-light  display-6">Movie Details</h2>
+                <h2 className="text-center text-light mt-2 display-6">Books</h2>
                 <div className={''}>
                     {books.map(book =>
                         <a target="_blank" href={`/book/${book.id}`}>

@@ -12,13 +12,17 @@ export default function Users() {
     let [description, setDescription] = useState([]);
     let { usersid } = useParams();
     const [isReady, setIsReady] = React.useState(false);
+    const [hasError, setHasError] = React.useState();
     useEffect(() => {
         loadUsers();
     }, []);
 
     const fetchData = async (endpoint) =>{
-        const response = await axios.get(`http://localhost:8080/user/${endpoint}`)
-
+        const response = await axios.get(`http://localhost:8080/user/${endpoint}`).catch((error) => {
+            if (error.response.status === 500 && endpoint === `${usersid}`) {
+                setHasError(true)
+            }
+        });
         return response.data;
     }
 
@@ -32,7 +36,6 @@ export default function Users() {
         const descriptionData = fetchData(`description/${usersid}`);
 
         [users,movies,shows,books,albums,socialMedia,description] = await Promise.all([usersData,moviesData,showsData,booksData,albumsData,socialMediaData,descriptionData])
-
         setUsers(users)
         setMovies(movies)
         setShows(shows)
@@ -40,8 +43,20 @@ export default function Users() {
         setAlbums(albums)
         setSocialMedia(socialMedia)
         setDescription(description)
+
         setIsReady(true)
     };
+
+
+    if (hasError){
+        return(
+            <div className={"page text-light"}>
+                <h1 className={"display-1 mt-5"}>
+                    No User Found
+                </h1>
+            </div>
+        )
+    }
     if(!isReady) {
         return (
             <div className="text-center">
@@ -51,21 +66,19 @@ export default function Users() {
             </div>
         )
     }
-
-
-
-    return (
-        <div className={"lib_bg"}>
-            <div>
-                <br></br>
-                <div className={"social-icons"}>
-                    <div>
-                        <a target="_blank" href={`https://www.instagram.com/${socialMedia.instagramuser}`}><img src="https://ytuspark.com/wp-content/uploads/2020/09/instagram-logo-png-2428.png" alt="Instagram"/></a>
-                        <a target="_blank" href={`https://tr.pinterest.com/${socialMedia.pinterestuser}`}><img src="https://www.freepnglogos.com/uploads/pinterest-logo-emblem-png-11.png" alt="Pinterest"/></a>
-                        <a target="_blank" href={`https://www.linkedin.com/in/${socialMedia.linkedinuser}`}><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/640px-LinkedIn_logo_initials.png" alt="LinkedIn"/></a>
-                        <a target="_blank" href={`https://twitter.com/${socialMedia.twitteruser}`}><img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" alt="Twitter"/></a>
+    if (!hasError){
+        return (
+            <div className={"lib_bg"}>
+                <div>
+                    <br></br>
+                    <div className={"social-icons"}>
+                        <div>
+                            <a target="_blank" href={`https://www.instagram.com/${socialMedia.instagramuser}`}><img src="https://ytuspark.com/wp-content/uploads/2020/09/instagram-logo-png-2428.png" alt="Instagram"/></a>
+                            <a target="_blank" href={`https://tr.pinterest.com/${socialMedia.pinterestuser}`}><img src="https://www.freepnglogos.com/uploads/pinterest-logo-emblem-png-11.png" alt="Pinterest"/></a>
+                            <a target="_blank" href={`https://www.linkedin.com/in/${socialMedia.linkedinuser}`}><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/640px-LinkedIn_logo_initials.png" alt="LinkedIn"/></a>
+                            <a target="_blank" href={`https://twitter.com/${socialMedia.twitteruser}`}><img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" alt="Twitter"/></a>
+                        </div>
                     </div>
-                </div>
 
                     <div className={"text-light list_container mt-5"}>
                         <img className={'portrait'} src={`https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81pRtNTxSCgYSMPwz1ocAXGYgyjUhjkx62K1A7FCqJxaqVNMaSe5-uHrK2HNIHuxBjbUod09NN58xAvmdTneRyvhWH2q=w1920-h1080`} alt={"portrait"}/>
@@ -88,51 +101,58 @@ export default function Users() {
                             <li>
                                 <p>Date of Birth: {users.date_of_birth}</p>
                             </li>
+                            <Link type="button" to={`/user/update/${usersid}`}
+                                  className="btn btn-secondary ">Update
+                            </Link>
                         </ul>
                     </div>
 
-                <h1 className={"display-6 text-light mt-5 text-light "}>Who am I?</h1>
-                <div className={'container  text-light'}>
-                    <p>{description.description}</p>
-                </div>
+                    <h1 className={"display-6 text-light mt-5 text-light "}>Who am I?</h1>
+                    <div className={'container  text-light'}>
+                        <p>{description.description}</p>
+                    </div>
 
-                <h1 className={"display-5 text-light mt-5 "}>Favorite Movies</h1>
-                <div className={'list_container'}>
-                    {movies.map(movie =>
-                        <a target="_blank" href={`${movie.imdb_url}`}>
-                            <img className={'img'} src={`${movie.poster_path}`} alt={"movie"}/>
-                        </a>
-                    )}
-                </div>
+                    <h1 className={"display-5 text-light mt-5 "}>Favorite Movies</h1>
+                    <div className={'list_container'}>
+                        {movies.map(movie =>
+                            <a target="_blank" href={`/movie/${movie.id}`}>
+                                <img className={'img'} src={`${movie.poster_path}`} alt={"movie"}/>
+                            </a>
+                        )}
+                    </div>
 
-                <h1 className={"display-5 text-light mt-5"}>Favorite Shows</h1>
-                <div className={'list_container'}>
-                    {shows.map(show =>
-                        <a target="_blank" href={`${show.imdb_url}`}>
-                            <img className={'img'} src={`${show.poster_path}`} alt={"show"}/>
-                        </a>
-                    )}
-                </div>
+                    <h1 className={"display-5 text-light mt-5"}>Favorite Shows</h1>
+                    <div className={'list_container'}>
+                        {shows.map(show =>
+                            <a target="_blank" href={`/tv/${show.id}`}>
+                                <img className={'img'} src={`${show.poster_path}`} alt={"show"}/>
+                            </a>
+                        )}
+                    </div>
 
-                <h1 className={"display-5 text-light mt-5"}>Favorite Books</h1>
-                <div className={'list_container'}>
-                    {books.map(book =>
-                        <a target="_blank" href={`${book.webReaderLink}`}>
-                            <img className={'img'} src={`${book.cover_url}`} alt={"book"}/>
-                        </a>
-                    )}
-                </div>
+                    <h1 className={"display-5 text-light mt-5"}>Favorite Books</h1>
+                    <div className={'list_container'}>
+                        {books.map(book =>
+                            <a target="_blank" href={`/book/${book.id}`}>
+                                <img className={'img'} src={`${book.cover_url}`} alt={"book"}/>
+                            </a>
+                        )}
+                    </div>
 
-                <h1 className={"display-5 text-light mt-5 "}>Favorite Albums</h1>
-                <div className={'list_container'}>
-                    {albums.map(album =>
-                        <a>
-                            <img className={'img mb-5'} src={`${album}`} alt={"album"}/>
-                        </a>
+                    <h1 className={"display-5 text-light mt-5 "}>Favorite Albums</h1>
+                    <div className={'list_container'}>
+                        {albums.map(album =>
+                            <a target="_blank" href={`/album/${album.mbid}`}>
+                                <img className={'img mb-5'} src={`${album.image}`} alt={"album"}/>
+                            </a>
 
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
+
+
+
 }

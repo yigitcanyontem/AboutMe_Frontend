@@ -34,7 +34,7 @@ export default function Movies() {
     return (
         <div className={"page"}>
             <div className="container ">
-                <h2 className="text-center text-light  display-6">Movie Details</h2>
+                <h2 className="text-center text-light mt-2 display-6">Movies</h2>
                 <div className={''}>
                     {movies.map(movie =>
                         <a target="_blank" href={`/movie/${movie.id}`}>

@@ -34,7 +34,7 @@ export default function Shows() {
     return (
         <div className={"page"}>
             <div className="container ">
-                <h2 className="text-center text-light  display-6">Show Details</h2>
+                <h2 className="text-center text-light mt-2 display-6">Shows</h2>
                 <div className={''}>
                     {shows.map(show =>
                         <a target="_blank" href={`/tv/${show.id}`}>

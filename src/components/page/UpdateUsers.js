@@ -45,7 +45,14 @@ export default function UpdateUsers() {
         const response = await axios.get(`http://localhost:8080/user/${endpoint}`)
         return response.data;
     }
-
+    const onDelete= async (e)=>{
+        e.preventDefault();
+        const confirmDelete = window.confirm("Are you sure you want to delete your account?");
+        if (confirmDelete) {
+            await axios.delete(`http://localhost:8080/user/delete/${usersid}`);
+            navigate(`/`);
+        }
+    }
 
     const loadUsers = async () => {
         const usersData = fetchData(`${usersid}`);
@@ -153,6 +160,7 @@ export default function UpdateUsers() {
                                                 <Link type="button" to={`/user/${usersid}`}
                                                       className="btn btn-secondary m-2">Cancel
                                                 </Link>
+                                                <button type="button" onClick={onDelete}  className="btn btn-danger">Delete Account</button>
                                             </div>
                                         </div>
                                     </div>
