@@ -21,10 +21,11 @@ function AddUser() {
         date_of_birth:'',
         country:'',
         email: '',
-        username:''
+        username:'',
+        password:''
     })
 
-    const {firstName,lastName,date_of_birth,country,email,username}=user;
+    const {firstName,lastName,date_of_birth,country,email,username,password}=user;
     const onInputChange=(e)=>{
         setUser({...user,[e.target.name]:e.target.value})
     }
@@ -71,7 +72,11 @@ function AddUser() {
                             <input type="email" className="form-control" aria-describedby="emailHelp" name={"email"} value={email} onChange={(e)=>onInputChange(e)}/>
                             <div id="emailHelp" className="form-text text-light">We'll never share your email with anyone else.</div>
                         </div>
-                        <button type="submit" className="btn btn-dark">Submit</button>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <input type="password" className="form-control" aria-describedby="emailHelp" name={"password"} value={password} onChange={(e)=>onInputChange(e)}/>
+                        </div>
+                        <button type="submit" className="btn btn-success">Submit</button>
                         <Link type="submit" className="btn btn-danger mx-2" to={"/"}>Cancel</Link>
                     </form>
                 </div>

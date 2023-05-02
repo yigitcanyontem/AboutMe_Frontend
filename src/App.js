@@ -15,33 +15,39 @@ import Book from "./components/book/Book";
 import Welcome from "./components/Welcome";
 import SearchUsers from "./components/page/SearchUsers";
 import UpdateUsers from "./components/page/UpdateUsers";
+import LogInPage from "./components/page/LogInPage";
+import {useState} from "react";
+
 function App() {
-  return (
-      <div className={"App"}>
-        <Router>
-            <Navbar></Navbar>
-            <Routes>
-                <Route exact path={"/"} element={<Welcome/>}></Route>
-                <Route exact path={"/search/movie/:moviename"} element={<Movies/>}></Route>
-                <Route exact path={"/movie/:movieid"} element={<Movie/>}></Route>
+    const [userid, setUserId] = useState("");
+    return (
+        <div className={"App"}>
+          <Router>
+              <Navbar userid={userid}></Navbar>
+              <Routes>
+                  <Route exact path={"/"} element={<Welcome/>}></Route>
+                  <Route exact path={`/search/movie/:moviename/:usersid`} element={<Movies/>}></Route>
+                  <Route exact path={`/movie/:movieid/:usersid`} element={<Movie/>}></Route>
 
-                <Route exact path={"/search/tv/:showname"} element={<Shows/>}></Route>
-                <Route exact path={"/tv/:showid"} element={<Show/>}></Route>
+                  <Route exact path={`/search/tv/:showname/:usersid`} element={<Shows/>}></Route>
+                  <Route exact path={`/tv/:showid/:usersid`} element={<Show/>}></Route>
 
-                <Route exact path={"/search/album/:albumname"} element={<Albums/>}></Route>
-                <Route exact path={"/album/:albumid"} element={<Album/>}></Route>
+                  <Route exact path={`/search/album/:albumname/:usersid`} element={<Albums/>}></Route>
+                  <Route exact path={`/album/:albumid/:usersid`} element={<Album/>}></Route>
 
-                <Route exact path={"/search/book/:bookid"} element={<Books/>}></Route>
-                <Route exact path={"/book/:bookname"} element={<Book/>}></Route>
+                  <Route exact path={`/search/book/:bookname/:usersid`} element={<Books/>}></Route>
+                  <Route exact path={`/book/:bookid/:usersid`} element={<Book/>}></Route>
 
-                <Route exact path={"/search/user/:username"} element={<SearchUsers/>}></Route>
-                <Route exact path={"/user/create"} element={<AddUser/>}></Route>
-                <Route exact path={"/user/:usersid"} element={<Users/>}></Route>
-                <Route exact path={"/user/update/:usersid"} element={<UpdateUsers/>}></Route>
-          </Routes>
-        </Router>
-      </div>
-  );
+                  <Route exact path={`/search/user/:username`} element={<SearchUsers/>}></Route>
+                  <Route exact path={`/signup`} element={<AddUser/>}></Route>
+                  <Route exact path={`/login`} element={<LogInPage setUserId={setUserId}/>}></Route>
+
+                  <Route exact path={`/user/:usersid`} element={<Users/>}></Route>
+                  <Route exact path={`/user/update/:usersid`} element={<UpdateUsers/>}></Route>
+            </Routes>
+          </Router>
+        </div>
+    );
 }
 
 export default App;

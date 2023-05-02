@@ -1,11 +1,16 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 export default function Album() {
     const [albums, setAlbums] = useState([]);
-    const { albumid } = useParams();
+    const [btn, setBtn] = useState("btn-primary");
+    const { albumid,usersid } = useParams();
     const [hasError, setHasError] = useState(false);
+    const [defname, setDefname] = useState('Set Favorite');
+    const [isReady, setIsReady] = useState(false);
+
+    let navigate=useNavigate()
     useEffect(() => {
         loadUser();
     }, []);
@@ -23,12 +28,44 @@ export default function Album() {
             const result = await axios.get(
                 `http://localhost:8080/album/${albumid}`
             );
+            const response = await axios.get(
+                `http://localhost:8080/user/favalbums/${usersid}`
+            );
             setAlbums(result.data);
+            response.data.map(
+                value => {
+                    if (value.mbid === albumid){
+                        setDefname("Remove Favorite")
+                        setBtn("btn-danger")
+                    }
+                }
+            )
+            setIsReady(true)
             document.title = result.data.name
         } catch (error) {
             setHasError(true);
         }
     };
+    const onPress= async (e)=>{
+        e.preventDefault();
+        if (defname === "Remove Favorite"){
+            await axios.delete(`http://localhost:8080/user/favalbums/delete/${usersid}/${albumid}`);
+            navigate(`/user/${usersid}`)
+        }else if (defname === "Set Favorite"){
+            await axios.put(`http://localhost:8080/user/favalbums/${usersid}/${albumid}`);
+            navigate(`/user/${usersid}`);
+        }
+
+    }
+    if(!isReady) {
+        return (
+            <div className="text-center">
+                <div className="spinner-border spinner" role="status">
+                    <span className="sr-only"></span>
+                </div>
+            </div>
+        )
+    }
     if (hasError){
         return (
             <div className="container ">
@@ -59,7 +96,12 @@ export default function Album() {
                                     {album.artist}
                                 </li>
                                 <li className="list-group-item">
-                                    <a target={"_blank"} href={`${album.url}`} />
+                                    <a target={"_blank"} href={`${album.url}`} >
+                                        Listen
+                                    </a>
+                                </li>
+                                <li className="list-group-item ">
+                                    <button type="button" onClick={onPress}  className={`btn ${btn}`}>{defname}</button>
                                 </li>
                                 <li className="list-group-item">
                                     <img src={`${album.image}`} alt={"movie"}/>

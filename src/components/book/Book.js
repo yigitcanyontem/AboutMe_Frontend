@@ -1,11 +1,16 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 export default function Book() {
     const [books, setBooks] = useState([]);
-    const { bookname } = useParams();
+    const [btn, setBtn] = useState("btn-primary");
+    const { bookid,usersid } = useParams();
     const [hasError, setHasError] = useState(false);
+    const [defname, setDefname] = useState('Set Favorite');
+    const [isReady, setIsReady] = useState(false);
+    let navigate=useNavigate()
+
     useEffect(() => {
         loadUser();
     }, []);
@@ -20,20 +25,52 @@ export default function Book() {
     const loadUser = async () => {
         try {
             const result = await axios.get(
-                `http://localhost:8080/book/${bookname}`
+                `http://localhost:8080/book/${bookid}`
+            );
+            const response = await axios.get(
+                `http://localhost:8080/user/favbooks/${usersid}`
             );
             setBooks(result.data);
+            response.data.map(
+                value => {
+                    if (value.id === bookid){
+                        setDefname("Remove Favorite")
+                        setBtn("btn-danger")
+                    }
+                }
+            )
+            setIsReady(true)
             document.title = result.data.title
         } catch (error) {
             setHasError(true);
         }
     };
+    const onPress= async (e)=>{
+        e.preventDefault();
+        if (defname === "Remove Favorite"){
+            await axios.delete(`http://localhost:8080/user/favbooks/delete/${usersid}/${bookid}`);
+            navigate(`/user/${usersid}`)
+        }else if (defname === "Set Favorite"){
+            await axios.put(`http://localhost:8080/user/favbooks/${usersid}/${bookid}`);
+            navigate(`/user/${usersid}`);
+        }
+
+    }
+    if(!isReady) {
+        return (
+            <div className="text-center">
+                <div className="spinner-border spinner" role="status">
+                    <span className="sr-only"></span>
+                </div>
+            </div>
+        )
+    }
     if (hasError){
         return (
             <div className="container ">
                 <div className="row">
                     <div className="col-md-6 offset-md-3 border rounded p-4 mt-5 shadow text-bg-dark">
-                        <h2 className="text-center mx-auto display-6">The book with id "{bookname}" doesnt exist</h2>
+                        <h2 className="text-center mx-auto display-6">The book with id "{bookid}" doesnt exist</h2>
                     </div>
                 </div>
             </div>
@@ -62,7 +99,12 @@ export default function Book() {
                                     {book.description}
                                 </li>
                                 <li className="list-group-item">
-                                    <a target={"_blank"} href={`${book.webReaderLink}`} />
+                                    <a target={"_blank"} href={`${book.webReaderLink}`} >
+                                        Read
+                                    </a>
+                                </li>
+                                <li className="list-group-item ">
+                                    <button type="button" onClick={onPress}  className={`btn ${btn}`}>{defname}</button>
                                 </li>
                                 <li className="list-group-item">
                                     <img src={`${book.cover_url}`} alt={"movie"}/>

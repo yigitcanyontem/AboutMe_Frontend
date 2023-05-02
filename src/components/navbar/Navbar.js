@@ -2,12 +2,11 @@ import {useEffect, useState} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import {useNavigate} from "react-router-dom";
-export default function Navbar(){
+export default function Navbar({ userid }){
     const [search, setSearch] = useState('null');
     const [category, setCategory] = useState('Select a Category');
     const [inputvar, setInput] = useState("");
     const navigate = useNavigate()
-
 
 
     useEffect(() =>{
@@ -24,33 +23,33 @@ export default function Navbar(){
         const value = target.value;
         setInput(value)
     };
+
     const buttonChange = (event) => {
         switch (search) {
             case 'Movie':
-                navigate(`/search/movie/${inputvar}`)
+                navigate(`/search/movie/${inputvar}/${userid}`)
                 window.location.reload()
                 break;
             case 'User':
-                navigate(`/search/user/${inputvar}`)
+                navigate(`/search/user/${inputvar}/${userid}`)
                 window.location.reload()
                 break;
             case 'TV':
-                navigate(`/search/tv/${inputvar}`)
+                navigate(`/search/tv/${inputvar}/${userid}`)
                 window.location.reload()
                 break;
             case 'Album':
-                navigate(`/search/album/${inputvar}`)
+                navigate(`/search/album/${inputvar}/${userid}`)
                 window.location.reload()
                 break;
             case 'Book':
-                navigate(`/search/book/${inputvar}`)
+                navigate(`/search/book/${inputvar}/${userid}`)
                 window.location.reload()
                 break;
             default:
                 console.log('Invalid option selected');
         }
     };
-
     return(
         <nav className="navbar navbar-dark navbar_color sticky-top">
             <div className={"container-fluid"}>
@@ -73,7 +72,9 @@ export default function Navbar(){
                     <button className="btn btn-outline-light my-2 my-sm-0 mx-2" type="submit"  onClick={buttonChange} >Search</button>
                 </form>
                 <span>
-                <a className="navbar-brand" href="#">Log Out</a>
+                <a className="navbar-brand" href="/signup">Sign Up</a>
+                <a className="navbar-brand" >|</a>
+                <a className="navbar-brand" href="/login">Log In</a>
             </span>
             </div>
         </nav>

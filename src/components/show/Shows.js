@@ -4,7 +4,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 
 export default function Shows() {
     const [shows, setShows] = useState([]);
-    let { showname } = useParams();
+    let { showname,usersid } = useParams();
     const [isReady, setIsReady] = React.useState(false);
 
     useEffect(() => {
@@ -37,7 +37,7 @@ export default function Shows() {
                 <h2 className="text-center text-light mt-2 display-6">Shows</h2>
                 <div className={''}>
                     {shows.map(show =>
-                        <a target="_blank" href={`/tv/${show.id}`}>
+                        <a target="_blank" href={`/tv/${show.id}/${usersid}`}>
                             <img className={'search_img'} src={`${show.poster_path}`} alt={"show"}/>
                         </a>
                     )}

@@ -1,11 +1,16 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 export default function Show() {
     const [shows, setShows] = useState([]);
-    const { showid } = useParams();
+    const [btn, setBtn] = useState("btn-primary");
+    const { showid,usersid } = useParams();
     const [hasError, setHasError] = useState(false);
+    const [defname, setDefname] = useState('Set Favorite');
+    const [isReady, setIsReady] = useState(false);
+    let navigate=useNavigate()
+
     useEffect(() => {
         loadUser();
     }, []);
@@ -16,18 +21,50 @@ export default function Show() {
         height: '100%',
         overflow: 'auto'
     };
+
     const loadUser = async () => {
         try {
             const result = await axios.get(
                 `http://localhost:8080/tv/${showid}`
             );
+            const response = await axios.get(
+                `http://localhost:8080/user/favshows/${usersid}`
+            );
             setShows(result.data);
-            console.log(result.data)
+            response.data.map(
+                value => {
+                    if (value.id === showid){
+                        setDefname("Remove Favorite")
+                        setBtn("btn-danger")
+                    }
+                }
+            )
+            setIsReady(true)
             document.title = result.data.original_title
         } catch (error) {
             setHasError(true);
         }
     };
+    const onPress= async (e)=>{
+        e.preventDefault();
+        if (defname === "Remove Favorite"){
+            await axios.delete(`http://localhost:8080/user/favshows/delete/${usersid}/${showid}`);
+            navigate(`/user/${usersid}`)
+        }else if (defname === "Set Favorite"){
+            await axios.put(`http://localhost:8080/user/favshows/${usersid}/${showid}`);
+            navigate(`/user/${usersid}`);
+        }
+
+    }
+    if(!isReady) {
+        return (
+            <div className="text-center">
+                <div className="spinner-border spinner" role="status">
+                    <span className="sr-only"></span>
+                </div>
+            </div>
+        )
+    }
     if (hasError){
         return (
             <div className="container ">
@@ -55,6 +92,14 @@ export default function Show() {
                                 <li className="list-group-item">
                                     <b>Overview: </b>
                                     {show.overview}
+                                </li>
+                                <li className="list-group-item ">
+                                    <a target={"_blank"} href={show.imdb_url}>
+                                        Website
+                                    </a>
+                                </li>
+                                <li className="list-group-item ">
+                                    <button type="button" onClick={onPress}  className={`btn ${btn}`}>{defname}</button>
                                 </li>
                                 <li className="list-group-item ">
                                     <img src={`${show.poster_path}`} alt={"show"}/>

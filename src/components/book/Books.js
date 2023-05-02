@@ -6,7 +6,7 @@ export default function Books() {
     const [books, setBooks] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
-    let { bookid } = useParams();
+    let { bookname,usersid } = useParams();
     useEffect(() => {
         loadUser();
     }, []);
@@ -15,7 +15,7 @@ export default function Books() {
 
     const loadUser = async () => {
         const result = await axios.get(
-            `http://localhost:8080/search/book/${bookid}`
+            `http://localhost:8080/search/book/${bookname}`
         );
         setBooks(result.data);
         setIsReady(true)
@@ -37,7 +37,7 @@ export default function Books() {
                 <h2 className="text-center text-light mt-2 display-6">Books</h2>
                 <div className={''}>
                     {books.map(book =>
-                        <a target="_blank" href={`/book/${book.id}`}>
+                        <a target="_blank" href={`/book/${book.id}/${usersid}`}>
                             <img className={'search_img'} src={`${book.cover_url}`} alt={"movie"}/>
                         </a>
                     )}

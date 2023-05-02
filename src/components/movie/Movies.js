@@ -6,7 +6,7 @@ export default function Movies() {
     const [movies, setMovies] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
-    let { moviename } = useParams();
+    let { moviename,usersid } = useParams();
     useEffect(() => {
         loadUser();
     }, []);
@@ -37,7 +37,7 @@ export default function Movies() {
                 <h2 className="text-center text-light mt-2 display-6">Movies</h2>
                 <div className={''}>
                     {movies.map(movie =>
-                        <a target="_blank" href={`/movie/${movie.id}`}>
+                        <a target="_blank" href={`/movie/${movie.id}/${usersid}`}>
                             <img className={'search_img'} src={`${movie.poster_path}`} alt={"movie"}/>
                         </a>
                     )}

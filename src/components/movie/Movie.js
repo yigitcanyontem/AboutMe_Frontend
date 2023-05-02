@@ -1,11 +1,17 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 export default function Movie() {
     const [movies, setMovies] = useState([]);
-    const { movieid } = useParams();
+    const [btn, setBtn] = useState("btn-primary");
+    const { movieid,usersid } = useParams();
     const [hasError, setHasError] = useState(false);
+    const [defname, setDefname] = useState('Set Favorite');
+    const [isReady, setIsReady] = useState(false);
+
+    let navigate=useNavigate()
+
     useEffect(() => {
         loadUser();
     }, []);
@@ -22,12 +28,44 @@ export default function Movie() {
             const result = await axios.get(
                 `http://localhost:8080/movie/${movieid}`
             );
+            const response = await axios.get(
+                `http://localhost:8080/user/favmovie/${usersid}`
+            );
             setMovies(result.data);
+            response.data.map(
+                value => {
+                    if (value.id === movieid){
+                        setDefname("Remove Favorite")
+                        setBtn("btn-danger")
+                    }
+                }
+            )
+            setIsReady(true)
             document.title = result.data.original_title
         } catch (error) {
             setHasError(true);
         }
     };
+    const onPress= async (e)=>{
+        e.preventDefault();
+        if (defname === "Remove Favorite"){
+            await axios.delete(`http://localhost:8080/user/favmovie/delete/${usersid}/${movieid}`);
+            navigate(`/user/${usersid}`)
+        }else if (defname === "Set Favorite"){
+            await axios.put(`http://localhost:8080/user/favmovie/${usersid}/${movieid}`);
+            navigate(`/user/${usersid}`);
+        }
+
+    }
+    if(!isReady) {
+        return (
+            <div className="text-center">
+                <div className="spinner-border spinner" role="status">
+                    <span className="sr-only"></span>
+                </div>
+            </div>
+        )
+    }
     if (hasError){
         return (
             <div className="container">
@@ -57,6 +95,14 @@ export default function Movie() {
                                     {movie.overview}
                                 </li>
                                 <li className="list-group-item ">
+                                    <a target={"_blank"} href={movie.imdb_url}>
+                                        IMDB
+                                    </a>
+                                </li>
+                                <li className="list-group-item ">
+                                    <button type="button" onClick={onPress}  className={`btn ${btn}`}>{defname}</button>
+                                </li>
+                                <li className="list-group-item">
                                     <img src={`${movie.poster_path}`} alt={"movie"}/>
                                 </li>
                             </ul>

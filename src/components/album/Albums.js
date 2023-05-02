@@ -6,7 +6,7 @@ export default function Albums() {
     const [albums, setAlbums] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
-    let { albumname } = useParams();
+    let { albumname,usersid } = useParams();
     useEffect(() => {
         loadUser();
     }, []);
@@ -37,7 +37,7 @@ export default function Albums() {
                 <h2 className="text-center text-light mt-2 display-6">Albums </h2>
                 <div className={''}>
                     {albums.map(album =>
-                        <a target="_blank" href={`/album/${album.mbid}`}>
+                        <a target="_blank" href={`/album/${album.mbid}/${usersid}`}>
                             <img className={'search_img'} src={`${album.image}`} alt={"album"}/>
                         </a>
                     )}

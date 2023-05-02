@@ -115,7 +115,7 @@ export default function Users() {
                     <h1 className={"display-5 text-light mt-5 "}>Favorite Movies</h1>
                     <div className={'list_container'}>
                         {movies.map(movie =>
-                            <a target="_blank" href={`/movie/${movie.id}`}>
+                            <a target="_blank" href={`/movie/${movie.id}/${usersid}`}>
                                 <img className={'img'} src={`${movie.poster_path}`} alt={"movie"}/>
                             </a>
                         )}
@@ -124,7 +124,7 @@ export default function Users() {
                     <h1 className={"display-5 text-light mt-5"}>Favorite Shows</h1>
                     <div className={'list_container'}>
                         {shows.map(show =>
-                            <a target="_blank" href={`/tv/${show.id}`}>
+                            <a target="_blank" href={`/tv/${show.id}/${usersid}`}>
                                 <img className={'img'} src={`${show.poster_path}`} alt={"show"}/>
                             </a>
                         )}
@@ -133,7 +133,7 @@ export default function Users() {
                     <h1 className={"display-5 text-light mt-5"}>Favorite Books</h1>
                     <div className={'list_container'}>
                         {books.map(book =>
-                            <a target="_blank" href={`/book/${book.id}`}>
+                            <a target="_blank" href={`/book/${book.id}/${usersid}`}>
                                 <img className={'img'} src={`${book.cover_url}`} alt={"book"}/>
                             </a>
                         )}
@@ -142,7 +142,7 @@ export default function Users() {
                     <h1 className={"display-5 text-light mt-5 "}>Favorite Albums</h1>
                     <div className={'list_container'}>
                         {albums.map(album =>
-                            <a target="_blank" href={`/album/${album.mbid}`}>
+                            <a target="_blank" href={`/album/${album.mbid}/${usersid}`}>
                                 <img className={'img mb-5'} src={`${album.image}`} alt={"album"}/>
                             </a>
 
