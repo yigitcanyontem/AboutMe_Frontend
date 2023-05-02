@@ -20,10 +20,11 @@ import {useState} from "react";
 
 function App() {
     const [userid, setUserId] = useState("");
+
     return (
         <div className={"App"}>
           <Router>
-              <Navbar userid={userid}></Navbar>
+              <Navbar userid={userid} ></Navbar>
               <Routes>
                   <Route exact path={"/"} element={<Welcome/>}></Route>
                   <Route exact path={`/search/movie/:moviename/:usersid`} element={<Movies/>}></Route>

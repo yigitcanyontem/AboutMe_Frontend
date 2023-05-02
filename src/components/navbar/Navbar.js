@@ -7,7 +7,11 @@ export default function Navbar({ userid }){
     const [category, setCategory] = useState('Select a Category');
     const [inputvar, setInput] = useState("");
     const navigate = useNavigate()
-
+    const [log1,setLog1] = useState("Sign Up");
+    const [log2,setLog2] = useState("|");
+    const [log3,setLog3] = useState("Log In");
+    const [log4,setLog4] = useState("");
+    const [logbool,setLogbool] = useState(true);
 
     useEffect(() =>{
         var dropdown = document.querySelector('.dropdown-menu');
@@ -17,7 +21,25 @@ export default function Navbar({ userid }){
             setSearch(option.id)
             setCategory(option.id)
         })
-    })
+        if (userid !== ""){
+            setLogbool(false);
+            handleLogChange()
+        }
+    }, )
+
+    const handleLogChange = (event) => {
+        if (logbool){
+            setLog1("Sign Up")
+            setLog2("|")
+            setLog3("Log In")
+            setLog4("")
+        }else {
+            setLog1("")
+            setLog2("")
+            setLog3("")
+            setLog4("Log Out")
+        }
+    };
     const handleInputChange = (event) => {
         const target = event.target;
         const value = target.value;
@@ -28,23 +50,18 @@ export default function Navbar({ userid }){
         switch (search) {
             case 'Movie':
                 navigate(`/search/movie/${inputvar}/${userid}`)
-                window.location.reload()
                 break;
             case 'User':
                 navigate(`/search/user/${inputvar}/${userid}`)
-                window.location.reload()
                 break;
             case 'TV':
                 navigate(`/search/tv/${inputvar}/${userid}`)
-                window.location.reload()
                 break;
             case 'Album':
                 navigate(`/search/album/${inputvar}/${userid}`)
-                window.location.reload()
                 break;
             case 'Book':
                 navigate(`/search/book/${inputvar}/${userid}`)
-                window.location.reload()
                 break;
             default:
                 console.log('Invalid option selected');
@@ -72,9 +89,11 @@ export default function Navbar({ userid }){
                     <button className="btn btn-outline-light my-2 my-sm-0 mx-2" type="submit"  onClick={buttonChange} >Search</button>
                 </form>
                 <span>
-                <a className="navbar-brand" href="/signup">Sign Up</a>
-                <a className="navbar-brand" >|</a>
-                <a className="navbar-brand" href="/login">Log In</a>
+                <a className="navbar-brand" href="/signup" >{log1}</a>
+                <a className="navbar-brand" >{log2}</a>
+                <a className="navbar-brand" href="/login">{log3}</a>
+                <a className="navbar-brand" href="/" onClick={handleLogChange}>{log4}</a>
+
             </span>
             </div>
         </nav>
