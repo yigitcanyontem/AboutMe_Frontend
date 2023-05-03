@@ -17,6 +17,7 @@ import SearchUsers from "./components/page/SearchUsers";
 import UpdateUsers from "./components/page/UpdateUsers";
 import LogInPage from "./components/page/LogInPage";
 import {useState} from "react";
+import HomePage from "./components/HomePage";
 
 function App() {
     const [userid, setUserId] = useState("");
@@ -24,9 +25,10 @@ function App() {
     return (
         <div className={"App"}>
           <Router>
-              <Navbar userid={userid} ></Navbar>
+              <Navbar userid={userid}></Navbar>
               <Routes >
                   <Route exact path={"/:usersid"} element={<Welcome setUserId={setUserId}/>}></Route>
+                  <Route exact path={"/"} element={<HomePage/>}></Route>
                   <Route exact path={`/search/movie/:moviename/:usersid`} element={<Movies setUserId={setUserId}/>}></Route>
                   <Route exact path={`/movie/:movieid/:usersid`} element={<Movie setUserId={setUserId}/>}></Route>
 

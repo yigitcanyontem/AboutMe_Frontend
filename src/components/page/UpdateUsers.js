@@ -50,6 +50,7 @@ export default function UpdateUsers({ setUserId }) {
         const confirmDelete = window.confirm("Are you sure you want to delete your account?");
         if (confirmDelete) {
             await axios.delete(`http://localhost:8080/user/delete/${usersid}`);
+            setUserId("")
             navigate(`/`);
         }
     }
