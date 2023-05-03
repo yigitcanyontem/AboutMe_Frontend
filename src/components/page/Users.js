@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Users() {
+export default function Users({userid}) {
+    let [btn1,  setBtn1] = useState("");
+    let [btn2,  setBtn2] = useState("");
+    let [btn3,  setBtn3] = useState("");
+
     let [users,  setUsers] = useState([]);
     let [movies, setMovies] = useState([]);
     let [shows,  setShows] = useState([]);
@@ -43,6 +47,11 @@ export default function Users() {
         setAlbums(albums)
         setSocialMedia(socialMedia)
         setDescription(description)
+        if (users.id === userid){
+            setBtn1("button")
+            setBtn2("btn btn-secondary")
+            setBtn3("Update")
+        }
         setIsReady(true)
         document.title = users.username
     };
@@ -101,8 +110,8 @@ export default function Users() {
                             <li>
                                 <p>Date of Birth: {users.date_of_birth}</p>
                             </li>
-                            <Link type="button" to={`/user/update/${usersid}`}
-                                  className="btn btn-secondary ">Update
+                            <Link type={`${btn1}`} to={`/user/update/${usersid}`} cl
+                                  className={`${btn2}`}>{`${btn3}`}
                             </Link>
                         </ul>
                     </div>
