@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import { useParams} from "react-router-dom";
 
-export default function Movies() {
+export default function Movies({ setUserId }) {
     const [movies, setMovies] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
@@ -18,6 +18,7 @@ export default function Movies() {
             `http://localhost:8080/search/movie/${moviename}`
         );
         setMovies(result.data);
+        setUserId(usersid);
         setIsReady(true)
     };
 

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Movie() {
+export default function Movie({ setUserId }) {
     const [movies, setMovies] = useState([]);
     const [btn, setBtn] = useState("btn-primary");
     const { movieid,usersid } = useParams();
@@ -41,6 +41,7 @@ export default function Movie() {
                 }
             )
             setIsReady(true)
+            setUserId(usersid);
             document.title = result.data.original_title
         } catch (error) {
             setHasError(true);

@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Books() {
+export default function Books({ setUserId }) {
     const [books, setBooks] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
@@ -18,6 +18,7 @@ export default function Books() {
             `http://localhost:8080/search/book/${bookname}`
         );
         setBooks(result.data);
+        setUserId(usersid);
         setIsReady(true)
     };
 

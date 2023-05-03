@@ -25,26 +25,26 @@ function App() {
         <div className={"App"}>
           <Router>
               <Navbar userid={userid} ></Navbar>
-              <Routes>
-                  <Route exact path={"/"} element={<Welcome/>}></Route>
-                  <Route exact path={`/search/movie/:moviename/:usersid`} element={<Movies/>}></Route>
-                  <Route exact path={`/movie/:movieid/:usersid`} element={<Movie/>}></Route>
+              <Routes >
+                  <Route exact path={"/:usersid"} element={<Welcome setUserId={setUserId}/>}></Route>
+                  <Route exact path={`/search/movie/:moviename/:usersid`} element={<Movies setUserId={setUserId}/>}></Route>
+                  <Route exact path={`/movie/:movieid/:usersid`} element={<Movie setUserId={setUserId}/>}></Route>
 
-                  <Route exact path={`/search/tv/:showname/:usersid`} element={<Shows/>}></Route>
-                  <Route exact path={`/tv/:showid/:usersid`} element={<Show/>}></Route>
+                  <Route exact path={`/search/tv/:showname/:usersid`} element={<Shows setUserId={setUserId}/>}></Route>
+                  <Route exact path={`/tv/:showid/:usersid`} element={<Show setUserId={setUserId}/>}></Route>
 
-                  <Route exact path={`/search/album/:albumname/:usersid`} element={<Albums/>}></Route>
-                  <Route exact path={`/album/:albumid/:usersid`} element={<Album/>}></Route>
+                  <Route exact path={`/search/album/:albumname/:usersid`} element={<Albums setUserId={setUserId}/>}></Route>
+                  <Route exact path={`/album/:albumid/:usersid`} element={<Album setUserId={setUserId}/>}></Route>
 
-                  <Route exact path={`/search/book/:bookname/:usersid`} element={<Books/>}></Route>
-                  <Route exact path={`/book/:bookid/:usersid`} element={<Book/>}></Route>
+                  <Route exact path={`/search/book/:bookname/:usersid`} element={<Books setUserId={setUserId}/>}></Route>
+                  <Route exact path={`/book/:bookid/:usersid`} element={<Book setUserId={setUserId}/>}></Route>
 
-                  <Route exact path={`/search/user/:username`} element={<SearchUsers/>}></Route>
+                  <Route exact path={`/search/user/:username/:usersid`} element={<SearchUsers setUserId={setUserId}/>}></Route>
                   <Route exact path={`/signup`} element={<AddUser/>}></Route>
                   <Route exact path={`/login`} element={<LogInPage setUserId={setUserId}/>}></Route>
 
-                  <Route exact path={`/user/:usersid`} element={<Users/>}></Route>
-                  <Route exact path={`/user/update/:usersid`} element={<UpdateUsers/>}></Route>
+                  <Route exact path={`/user/:usersid`} element={<Users setUserId={setUserId}/>}></Route>
+                  <Route exact path={`/user/update/:usersid`} element={<UpdateUsers setUserId={setUserId}/>}></Route>
             </Routes>
           </Router>
         </div>

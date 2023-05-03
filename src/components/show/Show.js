@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-export default function Show() {
+export default function Show({ setUserId }) {
     const [shows, setShows] = useState([]);
     const [btn, setBtn] = useState("btn-primary");
     const { showid,usersid } = useParams();
@@ -40,6 +40,7 @@ export default function Show() {
                 }
             )
             setIsReady(true)
+            setUserId(usersid);
             document.title = result.data.original_title
         } catch (error) {
             setHasError(true);

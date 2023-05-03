@@ -43,8 +43,8 @@ export default function Users() {
         setAlbums(albums)
         setSocialMedia(socialMedia)
         setDescription(description)
-
         setIsReady(true)
+        document.title = users.username
     };
 
 

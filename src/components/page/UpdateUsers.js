@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function UpdateUsers() {
+export default function UpdateUsers({ setUserId }) {
     let [users,  setUsers] = useState([]);
     let [movies, setMovies] = useState([]);
     let [shows,  setShows] = useState([]);
@@ -73,6 +73,7 @@ export default function UpdateUsers() {
         setSocialMedia(socialMedia)
         setDescriptions(descriptions)
         setAssign({...assign,['username']:users.username})
+        setUserId(usersid);
         setIsReady(true)
     };
     if(!isReady) {

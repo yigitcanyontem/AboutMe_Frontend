@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-export default function Book() {
+export default function Book({ setUserId }) {
     const [books, setBooks] = useState([]);
     const [btn, setBtn] = useState("btn-primary");
     const { bookid,usersid } = useParams();
@@ -39,6 +39,7 @@ export default function Book() {
                     }
                 }
             )
+            setUserId(usersid);
             setIsReady(true)
             document.title = result.data.title
         } catch (error) {

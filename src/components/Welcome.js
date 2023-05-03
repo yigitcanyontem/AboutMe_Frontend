@@ -1,7 +1,9 @@
+import {useParams} from "react-router-dom";
 
 
-export default function Welcome() {
-
+export default function Welcome({ setUserId }) {
+    let { usersid } = useParams();
+    setUserId(usersid);
     return (
         <div className={"page text-light"}>
             <h1 className={"display-1 mt-2"}>Welcome To About Me</h1>

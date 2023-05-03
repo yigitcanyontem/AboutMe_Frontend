@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Albums() {
+export default function Albums({ setUserId }) {
     const [albums, setAlbums] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
@@ -18,6 +18,7 @@ export default function Albums() {
             `http://localhost:8080/search/album/${albumname}`
         );
         setAlbums(result.data);
+        setUserId(usersid);
         setIsReady(true)
     };
 

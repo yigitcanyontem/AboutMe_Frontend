@@ -92,7 +92,7 @@ export default function Navbar({ userid }){
                 <a className="navbar-brand" href="/signup" >{log1}</a>
                 <a className="navbar-brand" >{log2}</a>
                 <a className="navbar-brand" href="/login">{log3}</a>
-                <a className="navbar-brand" href="/" onClick={handleLogChange}>{log4}</a>
+                <a className="navbar-brand" href={`/${userid}`} onClick={handleLogChange}>{log4}</a>
 
             </span>
             </div>

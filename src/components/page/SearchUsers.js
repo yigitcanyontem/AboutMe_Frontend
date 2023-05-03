@@ -2,11 +2,11 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function SearchUsers() {
+export default function SearchUsers({ setUserId }) {
     const [users, setUsers] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
-    let { username } = useParams();
+    let { username,usersid } = useParams();
     useEffect(() => {
         loadUser();
     }, []);
@@ -18,6 +18,7 @@ export default function SearchUsers() {
             `http://localhost:8080/search/user/${username}`
         );
         setUsers(result.data);
+        setUserId(usersid);
         setIsReady(true)
     };
 

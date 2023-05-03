@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-export default function Album() {
+export default function Album({ setUserId }) {
     const [albums, setAlbums] = useState([]);
     const [btn, setBtn] = useState("btn-primary");
     const { albumid,usersid } = useParams();
@@ -40,6 +40,7 @@ export default function Album() {
                     }
                 }
             )
+            setUserId(usersid);
             setIsReady(true)
             document.title = result.data.name
         } catch (error) {
