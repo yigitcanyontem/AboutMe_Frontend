@@ -82,10 +82,10 @@ export default function Users({userid}) {
                     <br></br>
                     <div className={"social-icons"}>
                         <div>
-                            <a target="_blank" href={`https://www.instagram.com/${socialMedia.instagramuser}`}><img src="https://ytuspark.com/wp-content/uploads/2020/09/instagram-logo-png-2428.png" alt="Instagram"/></a>
-                            <a target="_blank" href={`https://tr.pinterest.com/${socialMedia.pinterestuser}`}><img src="https://www.freepnglogos.com/uploads/pinterest-logo-emblem-png-11.png" alt="Pinterest"/></a>
-                            <a target="_blank" href={`https://www.linkedin.com/in/${socialMedia.linkedinuser}`}><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/640px-LinkedIn_logo_initials.png" alt="LinkedIn"/></a>
-                            <a target="_blank" href={`https://twitter.com/${socialMedia.twitteruser}`}><img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" alt="Twitter"/></a>
+                            <a target="_blank" href={`https://www.instagram.com/${socialMedia.instagram}`}><img src="https://ytuspark.com/wp-content/uploads/2020/09/instagram-logo-png-2428.png" alt="Instagram"/></a>
+                            <a target="_blank" href={`https://tr.pinterest.com/${socialMedia.pinterest}`}><img src="https://www.freepnglogos.com/uploads/pinterest-logo-emblem-png-11.png" alt="Pinterest"/></a>
+                            <a target="_blank" href={`https://www.linkedin.com/in/${socialMedia.linkedin}`}><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/640px-LinkedIn_logo_initials.png" alt="LinkedIn"/></a>
+                            <a target="_blank" href={`https://twitter.com/${socialMedia.twitter}`}><img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" alt="Twitter"/></a>
                         </div>
                     </div>
 
