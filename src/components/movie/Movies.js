@@ -2,11 +2,11 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import { useParams} from "react-router-dom";
 
-export default function Movies({ setUserId }) {
+export default function Movies() {
     const [movies, setMovies] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
-    let { moviename,usersid } = useParams();
+    let { moviename } = useParams();
     useEffect(() => {
         loadUser();
     }, []);
@@ -18,7 +18,6 @@ export default function Movies({ setUserId }) {
             `http://localhost:8080/search/movie/${moviename}`
         );
         setMovies(result.data);
-        setUserId(usersid);
         setIsReady(true)
     };
 
@@ -38,7 +37,7 @@ export default function Movies({ setUserId }) {
                 <h2 className="text-center text-light mt-2 display-6">Movies</h2>
                 <div className={''}>
                     {movies.map(movie =>
-                        <a target="_blank" href={`/movie/${movie.id}/${usersid}`}>
+                        <a target="_blank" href={`/movie/${movie.id}`}>
                             <img className={'search_img'} src={`${movie.poster_path}`} alt={"movie"}/>
                         </a>
                     )}

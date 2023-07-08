@@ -2,10 +2,10 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-export default function Show({ setUserId }) {
+export default function Show() {
     const [shows, setShows] = useState([]);
     const [btn, setBtn] = useState("btn-primary");
-    const { showid,usersid } = useParams();
+    const { showid } = useParams();
     const [hasError, setHasError] = useState(false);
     const [defname, setDefname] = useState('Set Favorite');
     const [isReady, setIsReady] = useState(false);
@@ -28,7 +28,7 @@ export default function Show({ setUserId }) {
                 `http://localhost:8080/tv/${showid}`
             );
             const response = await axios.get(
-                `http://localhost:8080/user/favshows/${usersid}`
+                `http://localhost:8080/user/favshows/${localStorage.getItem('userid')}`
             );
             setShows(result.data);
             response.data.map(
@@ -40,7 +40,6 @@ export default function Show({ setUserId }) {
                 }
             )
             setIsReady(true)
-            setUserId(usersid);
             document.title = result.data.original_title
         } catch (error) {
             setHasError(true);
@@ -49,11 +48,11 @@ export default function Show({ setUserId }) {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            await axios.delete(`http://localhost:8080/user/favshows/delete/${usersid}/${showid}`);
-            navigate(`/user/${usersid}`)
+            await axios.delete(`http://localhost:8080/user/favshows/delete/${localStorage.getItem('userid')}/${showid}`);
+            navigate(`/user/${localStorage.getItem('userid')}`)
         }else if (defname === "Set Favorite"){
-            await axios.put(`http://localhost:8080/user/favshows/${usersid}/${showid}`);
-            navigate(`/user/${usersid}`);
+            await axios.put(`http://localhost:8080/user/favshows/${localStorage.getItem('userid')}/${showid}`);
+            navigate(`/user/${localStorage.getItem('userid')}`);
         }
 
     }

@@ -2,11 +2,11 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Albums({ setUserId }) {
+export default function Albums() {
     const [albums, setAlbums] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
-    let { albumname,usersid } = useParams();
+    let { albumname } = useParams();
     useEffect(() => {
         loadUser();
     }, []);
@@ -18,7 +18,6 @@ export default function Albums({ setUserId }) {
             `http://localhost:8080/search/album/${albumname}`
         );
         setAlbums(result.data);
-        setUserId(usersid);
         setIsReady(true)
     };
 
@@ -38,7 +37,7 @@ export default function Albums({ setUserId }) {
                 <h2 className="text-center text-light mt-2 display-6">Albums </h2>
                 <div className={''}>
                     {albums.map(album =>
-                        <a target="_blank" href={`/album/${album.mbid}/${usersid}`}>
+                        <a target="_blank" href={`/album/${album.mbid}`}>
                             <img className={'search_img'} src={`${album.image}`} alt={"album"}/>
                         </a>
                     )}

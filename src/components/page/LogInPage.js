@@ -2,7 +2,7 @@ import React, { useState} from 'react';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-function LogInPage({ setUserId }) {
+function LogInPage() {
 
     let navigate=useNavigate()
 
@@ -19,7 +19,7 @@ function LogInPage({ setUserId }) {
         e.preventDefault();
         const result = await axios.put("http://localhost:8080/user/login",user);
         if (result.data !== "Error"){
-            setUserId(result.data);
+            localStorage.setItem('userid', result.data);
             navigate(`/user/${result.data}`)
         }else {
             alert("Wrong Password on Username")

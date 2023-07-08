@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function UpdateUsers({ setUserId }) {
+export default function UpdateUsers() {
     let [users,  setUsers] = useState([]);
     let [movies, setMovies] = useState([]);
     let [shows,  setShows] = useState([]);
@@ -11,8 +11,6 @@ export default function UpdateUsers({ setUserId }) {
     let [socialMedia, setSocialMedia] = useState([]);
     let [descriptions, setDescriptions] = useState([]);
     let navigate=useNavigate()
-
-    let { usersid } = useParams();
 
     const [isReady, setIsReady] = React.useState(false);
     useEffect(() => {
@@ -38,7 +36,7 @@ export default function UpdateUsers({ setUserId }) {
     const onSubmit= async (e)=>{
         e.preventDefault();
         await axios.put("http://localhost:8080/user/update",assign);
-        navigate(`/user/${usersid}`);
+        navigate(`/user/${localStorage.getItem('userid')}`);
     }
 
     const fetchData = async (endpoint) =>{
@@ -49,20 +47,20 @@ export default function UpdateUsers({ setUserId }) {
         e.preventDefault();
         const confirmDelete = window.confirm("Are you sure you want to delete your account?");
         if (confirmDelete) {
-            await axios.delete(`http://localhost:8080/user/delete/${usersid}`);
-            setUserId("")
+            await axios.delete(`http://localhost:8080/user/delete/${localStorage.getItem('userid')}`);
+            localStorage.setItem('userid',"");
             navigate(`/`);
         }
     }
 
     const loadUsers = async () => {
-        const usersData = fetchData(`${usersid}`);
-        const moviesData = fetchData(`favmovie/${usersid}`);
-        const showsData = fetchData(`favshows/${usersid}`);
-        const booksData = fetchData(`favbooks/${usersid}`);
-        const albumsData = fetchData(`favalbums/${usersid}`);
-        const socialMediaData = fetchData(`socialmedia/${usersid}`);
-        const descriptionData = fetchData(`description/${usersid}`);
+        const usersData = fetchData(`${localStorage.getItem('userid')}`);
+        const moviesData = fetchData(`favmovie/${localStorage.getItem('userid')}`);
+        const showsData = fetchData(`favshows/${localStorage.getItem('userid')}`);
+        const booksData = fetchData(`favbooks/${localStorage.getItem('userid')}`);
+        const albumsData = fetchData(`favalbums/${localStorage.getItem('userid')}`);
+        const socialMediaData = fetchData(`socialmedia/${localStorage.getItem('userid')}`);
+        const descriptionData = fetchData(`description/${localStorage.getItem('userid')}`);
 
         [users,movies,shows,books,albums,socialMedia,descriptions] = await Promise.all([usersData,moviesData,showsData,booksData,albumsData,socialMediaData,descriptionData])
 
@@ -74,7 +72,6 @@ export default function UpdateUsers({ setUserId }) {
         setSocialMedia(socialMedia)
         setDescriptions(descriptions)
         setAssign({...assign,['username']:users.username})
-        setUserId(usersid);
         setIsReady(true)
     };
     if(!isReady) {
@@ -159,7 +156,7 @@ export default function UpdateUsers({ setUserId }) {
                                                 <button type="submit" id="submit" name="submit"
                                                         className="btn btn-primary">Update
                                                 </button>
-                                                <Link type="button" to={`/user/${usersid}`}
+                                                <Link type="button" to={`/user/${localStorage.getItem('userid')}`}
                                                       className="btn btn-secondary m-2">Cancel
                                                 </Link>
                                                 <button type="button" onClick={onDelete}  className="btn btn-danger">Delete Account</button>

@@ -2,13 +2,14 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-export default function Album({ setUserId }) {
+export default function Album() {
     const [albums, setAlbums] = useState([]);
     const [btn, setBtn] = useState("btn-primary");
-    const { albumid,usersid } = useParams();
+    const { albumid } = useParams();
     const [hasError, setHasError] = useState(false);
     const [defname, setDefname] = useState('Set Favorite');
     const [isReady, setIsReady] = useState(false);
+    const [usersid,setUsersid] = useState();
 
     let navigate=useNavigate()
     useEffect(() => {
@@ -29,7 +30,7 @@ export default function Album({ setUserId }) {
                 `http://localhost:8080/album/${albumid}`
             );
             const response = await axios.get(
-                `http://localhost:8080/user/favalbums/${usersid}`
+                `http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}`
             );
             setAlbums(result.data);
             response.data.map(
@@ -40,7 +41,6 @@ export default function Album({ setUserId }) {
                     }
                 }
             )
-            setUserId(usersid);
             setIsReady(true)
             document.title = result.data.name
         } catch (error) {
@@ -50,11 +50,11 @@ export default function Album({ setUserId }) {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            await axios.delete(`http://localhost:8080/user/favalbums/delete/${usersid}/${albumid}`);
-            navigate(`/user/${usersid}`)
+            await axios.delete(`http://localhost:8080/user/favalbums/delete/${localStorage.getItem('userid')}/${albumid}`);
+            navigate(`/user/${localStorage.getItem('userid')}`)
         }else if (defname === "Set Favorite"){
-            await axios.put(`http://localhost:8080/user/favalbums/${usersid}/${albumid}`);
-            navigate(`/user/${usersid}`);
+            await axios.put(`http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}/${albumid}`);
+            navigate(`/user/${localStorage.getItem('userid')}`);
         }
 
     }

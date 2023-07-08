@@ -49,19 +49,19 @@ export default function Navbar({ userid }){
     const buttonChange = (event) => {
         switch (search) {
             case 'Movie':
-                navigate(`/search/movie/${inputvar}/${userid}`)
+                navigate(`/search/movie/${inputvar}`)
                 break;
             case 'User':
-                navigate(`/search/user/${inputvar}/${userid}`)
+                navigate(`/search/user/${inputvar}`)
                 break;
             case 'TV':
-                navigate(`/search/tv/${inputvar}/${userid}`)
+                navigate(`/search/tv/${inputvar}`)
                 break;
             case 'Album':
-                navigate(`/search/album/${inputvar}/${userid}`)
+                navigate(`/search/album/${inputvar}`)
                 break;
             case 'Book':
-                navigate(`/search/book/${inputvar}/${userid}`)
+                navigate(`/search/book/${inputvar}`)
                 break;
             default:
                 console.log('Invalid option selected');

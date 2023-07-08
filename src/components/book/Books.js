@@ -2,11 +2,11 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Books({ setUserId }) {
+export default function Books() {
     const [books, setBooks] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
 
-    let { bookname,usersid } = useParams();
+    let { bookname } = useParams();
     useEffect(() => {
         loadUser();
     }, []);
@@ -18,7 +18,6 @@ export default function Books({ setUserId }) {
             `http://localhost:8080/search/book/${bookname}`
         );
         setBooks(result.data);
-        setUserId(usersid);
         setIsReady(true)
     };
 
@@ -38,7 +37,7 @@ export default function Books({ setUserId }) {
                 <h2 className="text-center text-light mt-2 display-6">Books</h2>
                 <div className={''}>
                     {books.map(book =>
-                        <a target="_blank" href={`/book/${book.id}/${usersid}`}>
+                        <a target="_blank" href={`/book/${book.id}/${localStorage.getItem('userid')}`}>
                             <img className={'search_img'} src={`${book.cover_url}`} alt={"movie"}/>
                         </a>
                     )}

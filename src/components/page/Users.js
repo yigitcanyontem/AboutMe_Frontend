@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Users({userid}) {
+export default function Users() {
     let [btn1,  setBtn1] = useState("");
     let [btn2,  setBtn2] = useState("");
     let [btn3,  setBtn3] = useState("");
-
     let [users,  setUsers] = useState([]);
     let [movies, setMovies] = useState([]);
     let [shows,  setShows] = useState([]);
@@ -14,7 +13,6 @@ export default function Users({userid}) {
     let [albums, setAlbums] = useState([]);
     let [socialMedia, setSocialMedia] = useState([]);
     let [description, setDescription] = useState([]);
-    let { usersid } = useParams();
     const [isReady, setIsReady] = React.useState(false);
     const [hasError, setHasError] = React.useState();
     useEffect(() => {
@@ -23,7 +21,7 @@ export default function Users({userid}) {
 
     const fetchData = async (endpoint) =>{
         const response = await axios.get(`http://localhost:8080/user/${endpoint}`).catch((error) => {
-            if (error.response.status === 500 && endpoint === `${usersid}`) {
+            if (error.response.status === 500 && endpoint === `${localStorage.getItem('userid')}`) {
                 setHasError(true)
             }
         });
@@ -31,13 +29,13 @@ export default function Users({userid}) {
     }
 
     const loadUsers = async () => {
-        const usersData = fetchData(`${usersid}`);
-        const moviesData = fetchData(`favmovie/${usersid}`);
-        const showsData = fetchData(`favshows/${usersid}`);
-        const booksData = fetchData(`favbooks/${usersid}`);
-        const albumsData = fetchData(`favalbums/${usersid}`);
-        const socialMediaData = fetchData(`socialmedia/${usersid}`);
-        const descriptionData = fetchData(`description/${usersid}`);
+        const usersData = fetchData(`${localStorage.getItem('userid')}`);
+        const moviesData = fetchData(`favmovie/${localStorage.getItem('userid')}`);
+        const showsData = fetchData(`favshows/${localStorage.getItem('userid')}`);
+        const booksData = fetchData(`favbooks/${localStorage.getItem('userid')}`);
+        const albumsData = fetchData(`favalbums/${localStorage.getItem('userid')}`);
+        const socialMediaData = fetchData(`socialmedia/${localStorage.getItem('userid')}`);
+        const descriptionData = fetchData(`description/${localStorage.getItem('userid')}`);
 
         [users,movies,shows,books,albums,socialMedia,description] = await Promise.all([usersData,moviesData,showsData,booksData,albumsData,socialMediaData,descriptionData])
         setUsers(users)
@@ -47,7 +45,7 @@ export default function Users({userid}) {
         setAlbums(albums)
         setSocialMedia(socialMedia)
         setDescription(description)
-        if (users.id === userid){
+        if (users.id === localStorage.getItem('userid')){
             setBtn1("button")
             setBtn2("btn btn-secondary")
             setBtn3("Update")
@@ -110,7 +108,7 @@ export default function Users({userid}) {
                             <li>
                                 <p>Date of Birth: {users.date_of_birth}</p>
                             </li>
-                            <Link type={`${btn1}`} to={`/user/update/${usersid}`} cl
+                            <Link type={`${btn1}`} to={`/user/update/${localStorage.getItem('userid')}`} cl
                                   className={`${btn2}`}>{`${btn3}`}
                             </Link>
                         </ul>
@@ -124,7 +122,7 @@ export default function Users({userid}) {
                     <h1 className={"display-5 text-light mt-5 "}>Favorite Movies</h1>
                     <div className={'list_container'}>
                         {movies.map(movie =>
-                            <a target="_blank" href={`/movie/${movie.id}/${usersid}`}>
+                            <a target="_blank" href={`/movie/${movie.id}`}>
                                 <img className={'img'} src={`${movie.poster_path}`} alt={"movie"}/>
                             </a>
                         )}
@@ -133,7 +131,7 @@ export default function Users({userid}) {
                     <h1 className={"display-5 text-light mt-5"}>Favorite Shows</h1>
                     <div className={'list_container'}>
                         {shows.map(show =>
-                            <a target="_blank" href={`/tv/${show.id}/${usersid}`}>
+                            <a target="_blank" href={`/tv/${show.id}`}>
                                 <img className={'img'} src={`${show.poster_path}`} alt={"show"}/>
                             </a>
                         )}
@@ -142,7 +140,7 @@ export default function Users({userid}) {
                     <h1 className={"display-5 text-light mt-5"}>Favorite Books</h1>
                     <div className={'list_container'}>
                         {books.map(book =>
-                            <a target="_blank" href={`/book/${book.id}/${usersid}`}>
+                            <a target="_blank" href={`/book/${book.id}`}>
                                 <img className={'img'} src={`${book.cover_url}`} alt={"book"}/>
                             </a>
                         )}
@@ -151,7 +149,7 @@ export default function Users({userid}) {
                     <h1 className={"display-5 text-light mt-5 "}>Favorite Albums</h1>
                     <div className={'list_container'}>
                         {albums.map(album =>
-                            <a target="_blank" href={`/album/${album.mbid}/${usersid}`}>
+                            <a target="_blank" href={`/album/${album.mbid}`}>
                                 <img className={'img mb-5'} src={`${album.image}`} alt={"album"}/>
                             </a>
 

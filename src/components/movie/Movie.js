@@ -2,10 +2,10 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Movie({ setUserId }) {
+export default function Movie() {
     const [movies, setMovies] = useState([]);
     const [btn, setBtn] = useState("btn-primary");
-    const { movieid,usersid } = useParams();
+    const { movieid } = useParams();
     const [hasError, setHasError] = useState(false);
     const [defname, setDefname] = useState('Set Favorite');
     const [isReady, setIsReady] = useState(false);
@@ -29,7 +29,7 @@ export default function Movie({ setUserId }) {
                 `http://localhost:8080/movie/${movieid}`
             );
             const response = await axios.get(
-                `http://localhost:8080/user/favmovie/${usersid}`
+                `http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}`
             );
             setMovies(result.data);
             response.data.map(
@@ -41,7 +41,6 @@ export default function Movie({ setUserId }) {
                 }
             )
             setIsReady(true)
-            setUserId(usersid);
             document.title = result.data.original_title
         } catch (error) {
             setHasError(true);
@@ -50,11 +49,18 @@ export default function Movie({ setUserId }) {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            await axios.delete(`http://localhost:8080/user/favmovie/delete/${usersid}/${movieid}`);
-            navigate(`/user/${usersid}`)
+            await axios.delete(`http://localhost:8080/user/favmovie/delete/${localStorage.getItem('userid')}/${movieid}`);
+            navigate(`/user/${localStorage.getItem('userid')}`)
         }else if (defname === "Set Favorite"){
-            await axios.put(`http://localhost:8080/user/favmovie/${usersid}/${movieid}`);
-            navigate(`/user/${usersid}`);
+            await axios.put(`http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}/${movieid}`).catch(error => {
+                if (error.response.data.message === "You can favorite maximum 6 movies please remove one"){
+                    alert("You can favorite maximum 6 movies please remove one")
+                }else {
+                    navigate(`/user/${localStorage.getItem('userid')}`);
+                }
+            })
+
+
         }
 
     }
@@ -99,6 +105,10 @@ export default function Movie({ setUserId }) {
                                     <a target={"_blank"} href={movie.imdb_url}>
                                         IMDB
                                     </a>
+                                </li>
+                                <li className="list-group-item ">
+                                    <b>Favorite Counter: </b>
+                                    {movie.favorite_count}
                                 </li>
                                 <li className="list-group-item ">
                                     <button type="button" onClick={onPress}  className={`btn ${btn}`}>{defname}</button>

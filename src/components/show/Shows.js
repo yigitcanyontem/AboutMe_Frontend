@@ -2,7 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-export default function Shows({ setUserId }) {
+export default function Shows() {
     const [shows, setShows] = useState([]);
     let { showname,usersid } = useParams();
     const [isReady, setIsReady] = React.useState(false);
@@ -18,7 +18,6 @@ export default function Shows({ setUserId }) {
             `http://localhost:8080/search/tv/${showname}`
         );
         setShows(result.data);
-        setUserId(usersid);
         setIsReady(true)
     };
 

@@ -2,10 +2,10 @@ import axios from "axios";
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
-export default function Book({ setUserId }) {
+export default function Book() {
     const [books, setBooks] = useState([]);
     const [btn, setBtn] = useState("btn-primary");
-    const { bookid,usersid } = useParams();
+    const { bookid } = useParams();
     const [hasError, setHasError] = useState(false);
     const [defname, setDefname] = useState('Set Favorite');
     const [isReady, setIsReady] = useState(false);
@@ -28,7 +28,7 @@ export default function Book({ setUserId }) {
                 `http://localhost:8080/book/${bookid}`
             );
             const response = await axios.get(
-                `http://localhost:8080/user/favbooks/${usersid}`
+                `http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}`
             );
             setBooks(result.data);
             response.data.map(
@@ -39,7 +39,6 @@ export default function Book({ setUserId }) {
                     }
                 }
             )
-            setUserId(usersid);
             setIsReady(true)
             document.title = result.data.title
         } catch (error) {
@@ -49,11 +48,11 @@ export default function Book({ setUserId }) {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            await axios.delete(`http://localhost:8080/user/favbooks/delete/${usersid}/${bookid}`);
-            navigate(`/user/${usersid}`)
+            await axios.delete(`http://localhost:8080/user/favbooks/delete/${localStorage.getItem('userid')}/${bookid}`);
+            navigate(`/user/${localStorage.getItem('userid')}`)
         }else if (defname === "Set Favorite"){
-            await axios.put(`http://localhost:8080/user/favbooks/${usersid}/${bookid}`);
-            navigate(`/user/${usersid}`);
+            await axios.put(`http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}/${bookid}`);
+            navigate(`/user/${localStorage.getItem('userid')}`);
         }
 
     }
