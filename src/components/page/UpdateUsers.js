@@ -48,7 +48,7 @@ export default function UpdateUsers() {
         const confirmDelete = window.confirm("Are you sure you want to delete your account?");
         if (confirmDelete) {
             await axios.delete(`http://localhost:8080/user/delete/${localStorage.getItem('userid')}`);
-            localStorage.setItem('userid',"");
+            localStorage.removeItem('userid');
             navigate(`/`);
         }
     }

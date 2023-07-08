@@ -15,6 +15,7 @@ export default function Users() {
     let [description, setDescription] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
     const [hasError, setHasError] = React.useState();
+    let { usersid } = useParams();
     useEffect(() => {
         loadUsers();
     }, []);
@@ -29,13 +30,13 @@ export default function Users() {
     }
 
     const loadUsers = async () => {
-        const usersData = fetchData(`${localStorage.getItem('userid')}`);
-        const moviesData = fetchData(`favmovie/${localStorage.getItem('userid')}`);
-        const showsData = fetchData(`favshows/${localStorage.getItem('userid')}`);
-        const booksData = fetchData(`favbooks/${localStorage.getItem('userid')}`);
-        const albumsData = fetchData(`favalbums/${localStorage.getItem('userid')}`);
-        const socialMediaData = fetchData(`socialmedia/${localStorage.getItem('userid')}`);
-        const descriptionData = fetchData(`description/${localStorage.getItem('userid')}`);
+        const usersData = fetchData(`${usersid}`);
+        const moviesData = fetchData(`favmovie/${usersid}`);
+        const showsData = fetchData(`favshows/${usersid}`);
+        const booksData = fetchData(`favbooks/${usersid}`);
+        const albumsData = fetchData(`favalbums/${usersid}`);
+        const socialMediaData = fetchData(`socialmedia/${usersid}`);
+        const descriptionData = fetchData(`description/${usersid}`);
 
         [users,movies,shows,books,albums,socialMedia,description] = await Promise.all([usersData,moviesData,showsData,booksData,albumsData,socialMediaData,descriptionData])
         setUsers(users)
@@ -45,7 +46,7 @@ export default function Users() {
         setAlbums(albums)
         setSocialMedia(socialMedia)
         setDescription(description)
-        if (users.id === localStorage.getItem('userid')){
+        if (users.id.toString() === localStorage.getItem('userid')){
             setBtn1("button")
             setBtn2("btn btn-secondary")
             setBtn3("Update")
@@ -88,7 +89,7 @@ export default function Users() {
                     </div>
 
                     <div className={"text-light list_container mt-5"}>
-                        <img className={'portrait'} src={`https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81pRtNTxSCgYSMPwz1ocAXGYgyjUhjkx62K1A7FCqJxaqVNMaSe5-uHrK2HNIHuxBjbUod09NN58xAvmdTneRyvhWH2q=w1920-h1080`} alt={"portrait"}/>
+                        <img className={'portrait'} src={`https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png`} alt={"portrait"}/>
                         <ul className={"text-start"}>
                             <li>
                                 <p>Username: {users.username}</p>
@@ -108,7 +109,7 @@ export default function Users() {
                             <li>
                                 <p>Date of Birth: {users.date_of_birth}</p>
                             </li>
-                            <Link type={`${btn1}`} to={`/user/update/${localStorage.getItem('userid')}`} cl
+                            <Link type={`${btn1}`} to={`/user/update`} cl
                                   className={`${btn2}`}>{`${btn3}`}
                             </Link>
                         </ul>

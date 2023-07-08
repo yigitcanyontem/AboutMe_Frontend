@@ -49,8 +49,13 @@ export default function Movie() {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            await axios.delete(`http://localhost:8080/user/favmovie/delete/${localStorage.getItem('userid')}/${movieid}`);
-            navigate(`/user/${localStorage.getItem('userid')}`)
+            const response = await axios.get(`http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}`);
+            if (response.data.length === 1){
+                alert("You need at least 1 favorite")
+            }else {
+                await axios.delete(`http://localhost:8080/user/favmovie/delete/${localStorage.getItem('userid')}/${movieid}`);
+                navigate(`/user/${localStorage.getItem('userid')}`)
+            }
         }else if (defname === "Set Favorite"){
             await axios.put(`http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}/${movieid}`).catch(error => {
                 if (error.response.data.message === "You can favorite maximum 6 movies please remove one"){

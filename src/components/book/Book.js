@@ -48,9 +48,14 @@ export default function Book() {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            await axios.delete(`http://localhost:8080/user/favbooks/delete/${localStorage.getItem('userid')}/${bookid}`);
-            navigate(`/user/${localStorage.getItem('userid')}`)
-        }else if (defname === "Set Favorite"){
+            const response = await axios.get(`http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}`);
+            if (response.data.length === 1){
+                alert("You need at least 1 favorite")
+            }else {
+                await axios.delete(`http://localhost:8080/user/favbooks/delete/${localStorage.getItem('userid')}/${bookid}`);
+                navigate(`/user/${localStorage.getItem('userid')}`)
+            }
+            }else if (defname === "Set Favorite"){
             await axios.put(`http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}/${bookid}`);
             navigate(`/user/${localStorage.getItem('userid')}`);
         }
@@ -102,6 +107,10 @@ export default function Book() {
                                     <a target={"_blank"} href={`${book.webReaderLink}`} >
                                         Read
                                     </a>
+                                </li>
+                                <li className="list-group-item ">
+                                    <b>Favorite Counter: </b>
+                                    {book.favorite_count}
                                 </li>
                                 <li className="list-group-item ">
                                     <button type="button" onClick={onPress}  className={`btn ${btn}`}>{defname}</button>

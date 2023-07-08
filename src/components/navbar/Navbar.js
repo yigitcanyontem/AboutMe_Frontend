@@ -21,29 +21,31 @@ export default function Navbar({ userid }){
             setSearch(option.id)
             setCategory(option.id)
         })
-        if (userid !== ""){
-            setLogbool(false);
-            handleLogChange()
+        if (localStorage.getItem('userid') !== null){
+            setLog1("")
+            setLog2("Account")
+            setLog3("")
+            setLog4("Log Out")
+        }else {
+            setLog1("Sign Up")
+            setLog2("")
+            setLog3("Log In")
+            setLog4("")
         }
+
     }, )
 
     const handleLogChange = (event) => {
-        if (logbool){
-            setLog1("Sign Up")
-            setLog2("|")
-            setLog3("Log In")
-            setLog4("")
-        }else {
-            setLog1("")
-            setLog2("")
-            setLog3("")
-            setLog4("Log Out")
+        if (log4 === "Log Out"){
+            localStorage.removeItem("userid")
         }
     };
     const handleInputChange = (event) => {
         const target = event.target;
         const value = target.value;
         setInput(value)
+
+
     };
 
     const buttonChange = (event) => {
@@ -90,7 +92,7 @@ export default function Navbar({ userid }){
                 </form>
                 <span>
                 <a className="navbar-brand" href="/signup" >{log1}</a>
-                <a className="navbar-brand" >{log2}</a>
+                <a className="navbar-brand" href={`/user/${localStorage.getItem('userid')}`}>{log2}</a>
                 <a className="navbar-brand" href="/login">{log3}</a>
                 <a className="navbar-brand" href={`/`} onClick={handleLogChange}>{log4}</a>
 

@@ -9,7 +9,6 @@ export default function Album() {
     const [hasError, setHasError] = useState(false);
     const [defname, setDefname] = useState('Set Favorite');
     const [isReady, setIsReady] = useState(false);
-    const [usersid,setUsersid] = useState();
 
     let navigate=useNavigate()
     useEffect(() => {
@@ -50,9 +49,14 @@ export default function Album() {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            await axios.delete(`http://localhost:8080/user/favalbums/delete/${localStorage.getItem('userid')}/${albumid}`);
-            navigate(`/user/${localStorage.getItem('userid')}`)
-        }else if (defname === "Set Favorite"){
+            const response = await axios.get(`http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}`);
+            if (response.data.length === 1){
+                alert("You need at least 1 favorite")
+            }else {
+                await axios.delete(`http://localhost:8080/user/favalbums/delete/${localStorage.getItem('userid')}/${albumid}`);
+                navigate(`/user/${localStorage.getItem('userid')}`)
+            }
+            }else if (defname === "Set Favorite"){
             await axios.put(`http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}/${albumid}`);
             navigate(`/user/${localStorage.getItem('userid')}`);
         }
@@ -100,6 +104,10 @@ export default function Album() {
                                     <a target={"_blank"} href={`${album.url}`} >
                                         Listen
                                     </a>
+                                </li>
+                                <li className="list-group-item ">
+                                    <b>Favorite Counter: </b>
+                                    {album.favorite_count}
                                 </li>
                                 <li className="list-group-item ">
                                     <button type="button" onClick={onPress}  className={`btn ${btn}`}>{defname}</button>
