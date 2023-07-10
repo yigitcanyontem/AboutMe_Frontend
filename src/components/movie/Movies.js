@@ -14,9 +14,16 @@ export default function Movies() {
 
 
     const loadUser = async () => {
-        const result = await axios.get(
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        };
+        const endpointUrl =
             `http://localhost:8080/search/movie/${moviename}`
-        );
+
+        const result = await axios.get(endpointUrl, config).catch((error) => {});
+
         setMovies(result.data);
         setIsReady(true)
     };

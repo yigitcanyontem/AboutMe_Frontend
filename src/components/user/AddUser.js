@@ -32,7 +32,7 @@ function AddUser() {
     const onSubmit= async (e)=>{
         e.preventDefault();
         const { data: response } = await axios.post("http://localhost:8080/user/create",user);
-        localStorage.setItem("userid",response)
+        localStorage.setItem("userid",response.data.id)
         navigate("/");
     }
 

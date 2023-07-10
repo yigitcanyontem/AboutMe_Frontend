@@ -25,16 +25,25 @@ export default function Album() {
 
     const loadUser = async () => {
         try {
-            const result = await axios.get(
-                `http://localhost:8080/album/${albumid}`
-            );
-            const response = await axios.get(
-                `http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}`
-            );
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            };
+
+            const endpointUrl1 = `http://localhost:8080/album/${albumid}`;
+            const endpointUrl= `http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}`;
+
+            const response = await axios.get(endpointUrl, config).catch((error) => {
+
+            });
+            const result = await axios.get(endpointUrl1, config).catch((error) => {
+
+            });
             setAlbums(result.data);
             response.data.map(
                 value => {
-                    if (value.mbid === albumid){
+                    if (value.id === albumid){
                         setDefname("Remove Favorite")
                         setBtn("btn-danger")
                     }

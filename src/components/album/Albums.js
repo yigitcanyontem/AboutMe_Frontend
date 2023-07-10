@@ -14,9 +14,15 @@ export default function Albums() {
 
 
     const loadUser = async () => {
-        const result = await axios.get(
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        };
+        const endpointUrl =
             `http://localhost:8080/search/album/${albumname}`
-        );
+
+        const result = await axios.get(endpointUrl, config).catch((error) => {});
         setAlbums(result.data);
         setIsReady(true)
     };

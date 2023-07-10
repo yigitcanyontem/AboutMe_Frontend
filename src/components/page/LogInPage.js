@@ -17,10 +17,12 @@ function LogInPage() {
     }
     const onSubmit= async (e)=>{
         e.preventDefault();
-        const result = await axios.put("http://localhost:8080/user/login",user);
+        const result = await axios.post("http://localhost:8080/api/v1/auth/authenticate",user);
+        console.log(result.data)
         if (result.data !== "Error"){
-            localStorage.setItem('userid', result.data);
-            navigate(`/user/${result.data}`)
+            localStorage.setItem('userid', result.data.id);
+            localStorage.setItem('token',result.data.access_token)
+            navigate(`/user/${result.data.id}`)
         }else {
             alert("Wrong Password on Username")
         }

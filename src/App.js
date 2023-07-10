@@ -43,7 +43,6 @@ function App() {
                   <Route exact path={`/signup`} element={<AddUser/>}></Route>
                   <Route exact path={`/login`} element={<LogInPage/>}></Route>
 
-                  <Route exact path={`/user`} element={<Users/>}></Route>
                   <Route exact path={`/user/:usersid`} element={<Users/>}></Route>
                   <Route exact path={`/user/update`} element={<UpdateUsers />}></Route>
             </Routes>

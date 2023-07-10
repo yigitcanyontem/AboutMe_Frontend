@@ -27,20 +27,38 @@ export default function UpdateUsers() {
         twitteruser:""
     })
 
-    const {username,description,instagramuser,pinterestuser,linkedinuser,twitteruser}=assign;
+        const {username,description,instagramuser,pinterestuser,linkedinuser,twitteruser}=assign;
 
     const onInputChange=(e)=>{
         setAssign({...assign,[e.target.name]:e.target.value})
     }
 
     const onSubmit= async (e)=>{
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+        };
+
+        const endpointUrl = `http://localhost:8080/user/update`;
+
+        const result = await axios.put(endpointUrl, assign, config).catch((error) => {});
+
         e.preventDefault();
-        await axios.put("http://localhost:8080/user/update",assign);
         navigate(`/user/${localStorage.getItem('userid')}`);
     }
 
     const fetchData = async (endpoint) =>{
-        const response = await axios.get(`http://localhost:8080/user/${endpoint}`)
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        };
+        const endpointUrl =
+            `http://localhost:8080/user/${endpoint}`
+
+        const response = await axios.get(endpointUrl, config).catch((error) => {});
+
         return response.data;
     }
     const onDelete= async (e)=>{

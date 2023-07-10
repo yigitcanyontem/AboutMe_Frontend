@@ -14,9 +14,16 @@ export default function Books() {
 
 
     const loadUser = async () => {
-        const result = await axios.get(
-            `http://localhost:8080/search/book/${bookname}`
-        );
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        };
+        const endpointUrl =
+            `http://localhost:8080/search/book/${bookname}`;
+
+        const result = await axios.get(endpointUrl, config).catch((error) => {});
+
         setBooks(result.data);
         setIsReady(true)
     };

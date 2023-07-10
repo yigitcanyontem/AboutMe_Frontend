@@ -14,9 +14,16 @@ export default function Shows() {
 
 
     const loadUser = async () => {
-        const result = await axios.get(
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        };
+        const endpointUrl =
             `http://localhost:8080/search/tv/${showname}`
-        );
+
+        const result = await axios.get(endpointUrl, config).catch((error) => {});
+
         setShows(result.data);
         setIsReady(true)
     };

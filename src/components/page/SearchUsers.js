@@ -14,9 +14,14 @@ export default function SearchUsers() {
 
 
     const loadUser = async () => {
-        const result = await axios.get(
-            `http://localhost:8080/search/user/${username}`
-        );
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        };
+        const endpointUrl = `http://localhost:8080/search/user/${username}`;
+
+        const result = await axios.get(endpointUrl, config).catch((error) => {});
         setUsers(result.data);
         setIsReady(true)
     };

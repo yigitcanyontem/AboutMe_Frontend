@@ -23,7 +23,7 @@ export default function Navbar({ userid }){
         })
         if (localStorage.getItem('userid') !== null){
             setLog1("")
-            setLog2("Account")
+            setLog2("Profile")
             setLog3("")
             setLog4("Log Out")
         }else {
@@ -38,6 +38,7 @@ export default function Navbar({ userid }){
     const handleLogChange = (event) => {
         if (log4 === "Log Out"){
             localStorage.removeItem("userid")
+            localStorage.removeItem("token")
         }
     };
     const handleInputChange = (event) => {

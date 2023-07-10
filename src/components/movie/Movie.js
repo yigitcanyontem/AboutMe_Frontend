@@ -25,12 +25,21 @@ export default function Movie() {
     };
     const loadUser = async () => {
         try {
-            const result = await axios.get(
-                `http://localhost:8080/movie/${movieid}`
-            );
-            const response = await axios.get(
-                `http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}`
-            );
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            };
+
+            const endpointUrl1 = `http://localhost:8080/movie/${movieid}`;
+            const endpointUrl= `http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}`;
+
+            const response = await axios.get(endpointUrl, config).catch((error) => {
+
+            });
+            const result = await axios.get(endpointUrl1, config).catch((error) => {
+
+            });
             setMovies(result.data);
             response.data.map(
                 value => {
@@ -49,15 +58,39 @@ export default function Movie() {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            const response = await axios.get(`http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}`);
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            };
+            const endpointUrl =
+                `http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}`;
+            const response = await axios.get(endpointUrl, config).catch((error) => {});
+
             if (response.data.length === 1){
                 alert("You need at least 1 favorite")
             }else {
-                await axios.delete(`http://localhost:8080/user/favmovie/delete/${localStorage.getItem('userid')}/${movieid}`);
+                const config1 = {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                };
+                const endpointUrl1 =
+                    `http://localhost:8080/user/favmovie/delete/${localStorage.getItem('userid')}/${movieid}`;
+                await axios.delete(endpointUrl1, config1).catch((error) => {});
+
                 navigate(`/user/${localStorage.getItem('userid')}`)
             }
         }else if (defname === "Set Favorite"){
-            await axios.put(`http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}/${movieid}`).catch(error => {
+            const config2 = {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            };
+
+            const endpointUrl2 =
+                `http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}/${movieid}`;
+            await axios.put(endpointUrl2, config2).catch((error) => {
                 if (error.response.data.message === "You can favorite maximum 6 movies please remove one"){
                     alert("You can favorite maximum 6 movies please remove one")
                 }else {

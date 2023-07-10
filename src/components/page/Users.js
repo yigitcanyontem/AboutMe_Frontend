@@ -21,11 +21,20 @@ export default function Users() {
     }, []);
 
     const fetchData = async (endpoint) =>{
-        const response = await axios.get(`http://localhost:8080/user/${endpoint}`).catch((error) => {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        };
+
+        const endpointUrl = `http://localhost:8080/user/${endpoint}`;
+
+        const response = await axios.get(endpointUrl, config).catch((error) => {
             if (error.response.status === 500 && endpoint === `${localStorage.getItem('userid')}`) {
-                setHasError(true)
+                setHasError(true);
             }
         });
+
         return response.data;
     }
 
@@ -123,7 +132,7 @@ export default function Users() {
                     <h1 className={"display-5 text-light mt-5 "}>Favorite Movies</h1>
                     <div className={'list_container'}>
                         {movies.map(movie =>
-                            <a target="_blank" href={`/movie/${movie.id}`}>
+                            <a href={`/movie/${movie.id}`}>
                                 <img className={'img'} src={`${movie.poster_path}`} alt={"movie"}/>
                             </a>
                         )}
@@ -132,7 +141,7 @@ export default function Users() {
                     <h1 className={"display-5 text-light mt-5"}>Favorite Shows</h1>
                     <div className={'list_container'}>
                         {shows.map(show =>
-                            <a target="_blank" href={`/tv/${show.id}`}>
+                            <a href={`/tv/${show.id}`}>
                                 <img className={'img'} src={`${show.poster_path}`} alt={"show"}/>
                             </a>
                         )}
@@ -141,7 +150,7 @@ export default function Users() {
                     <h1 className={"display-5 text-light mt-5"}>Favorite Books</h1>
                     <div className={'list_container'}>
                         {books.map(book =>
-                            <a target="_blank" href={`/book/${book.id}`}>
+                            <a href={`/book/${book.id}`}>
                                 <img className={'img'} src={`${book.cover_url}`} alt={"book"}/>
                             </a>
                         )}
@@ -150,7 +159,7 @@ export default function Users() {
                     <h1 className={"display-5 text-light mt-5 "}>Favorite Albums</h1>
                     <div className={'list_container'}>
                         {albums.map(album =>
-                            <a target="_blank" href={`/album/${album.mbid}`}>
+                            <a href={`/album/${album.mbid}`}>
                                 <img className={'img mb-5'} src={`${album.image}`} alt={"album"}/>
                             </a>
 

@@ -24,12 +24,23 @@ export default function Show() {
 
     const loadUser = async () => {
         try {
-            const result = await axios.get(
-                `http://localhost:8080/tv/${showid}`
-            );
-            const response = await axios.get(
-                `http://localhost:8080/user/favshows/${localStorage.getItem('userid')}`
-            );
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            };
+
+            const endpointUrl1 = `http://localhost:8080/tv/${showid}`;
+            const endpointUrl= `http://localhost:8080/user/favshows/${localStorage.getItem('userid')}`;
+
+            const response = await axios.get(endpointUrl, config).catch((error) => {
+
+            });
+            const result = await axios.get(endpointUrl1, config).catch((error) => {
+
+            });
+
+
             setShows(result.data);
             response.data.map(
                 value => {
