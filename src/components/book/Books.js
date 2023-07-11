@@ -44,7 +44,7 @@ export default function Books() {
                 <h2 className="text-center text-light mt-2 display-6">Books</h2>
                 <div className={''}>
                     {books.map(book =>
-                        <a target="_blank" href={`/book/${book.id}/${localStorage.getItem('userid')}`}>
+                        <a target="_blank" href={`/book/${book.id}`}>
                             <img className={'search_img'} src={`${book.cover_url}`} alt={"movie"}/>
                         </a>
                     )}

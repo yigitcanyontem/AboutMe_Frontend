@@ -9,7 +9,11 @@ export default function Movie() {
     const [hasError, setHasError] = useState(false);
     const [defname, setDefname] = useState('Set Favorite');
     const [isReady, setIsReady] = useState(false);
-
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    };
     let navigate=useNavigate()
 
     useEffect(() => {
@@ -25,11 +29,6 @@ export default function Movie() {
     };
     const loadUser = async () => {
         try {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            };
 
             const endpointUrl1 = `http://localhost:8080/movie/${movieid}`;
             const endpointUrl= `http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}`;
@@ -58,11 +57,7 @@ export default function Movie() {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            };
+
             const endpointUrl =
                 `http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}`;
             const response = await axios.get(endpointUrl, config).catch((error) => {});
@@ -70,27 +65,16 @@ export default function Movie() {
             if (response.data.length === 1){
                 alert("You need at least 1 favorite")
             }else {
-                const config1 = {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
-                    }
-                };
                 const endpointUrl1 =
                     `http://localhost:8080/user/favmovie/delete/${localStorage.getItem('userid')}/${movieid}`;
-                await axios.delete(endpointUrl1, config1).catch((error) => {});
+                await axios.delete(endpointUrl1, config).catch((error) => {});
 
                 navigate(`/user/${localStorage.getItem('userid')}`)
             }
         }else if (defname === "Set Favorite"){
-            const config2 = {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            };
-
             const endpointUrl2 =
                 `http://localhost:8080/user/favmovie/${localStorage.getItem('userid')}/${movieid}`;
-            await axios.put(endpointUrl2, config2).catch((error) => {
+            await axios.put(endpointUrl2, config).catch((error) => {
                 if (error.response.data.message === "You can favorite maximum 6 movies please remove one"){
                     alert("You can favorite maximum 6 movies please remove one")
                 }else {

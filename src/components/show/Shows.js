@@ -44,7 +44,7 @@ export default function Shows() {
                 <h2 className="text-center text-light mt-2 display-6">Shows</h2>
                 <div className={''}>
                     {shows.map(show =>
-                        <a target="_blank" href={`/tv/${show.id}/${usersid}`}>
+                        <a target="_blank" href={`/tv/${show.id}`}>
                             <img className={'search_img'} src={`${show.poster_path}`} alt={"show"}/>
                         </a>
                     )}

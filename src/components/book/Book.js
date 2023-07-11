@@ -10,6 +10,11 @@ export default function Book() {
     const [defname, setDefname] = useState('Set Favorite');
     const [isReady, setIsReady] = useState(false);
     let navigate=useNavigate()
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    };
 
     useEffect(() => {
         loadUser();
@@ -24,13 +29,6 @@ export default function Book() {
     };
     const loadUser = async () => {
         try {
-
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            };
-
             const endpointUrl1 = `http://localhost:8080/book/${bookid}`;
             const endpointUrl= `http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}`;
 
@@ -59,15 +57,15 @@ export default function Book() {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            const response = await axios.get(`http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}`);
+            const response = await axios.get(`http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}`,config);
             if (response.data.length === 1){
                 alert("You need at least 1 favorite")
             }else {
-                await axios.delete(`http://localhost:8080/user/favbooks/delete/${localStorage.getItem('userid')}/${bookid}`);
+                await axios.delete(`http://localhost:8080/user/favbooks/delete/${localStorage.getItem('userid')}/${bookid}`,config);
                 navigate(`/user/${localStorage.getItem('userid')}`)
             }
             }else if (defname === "Set Favorite"){
-            await axios.put(`http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}/${bookid}`);
+            await axios.put(`http://localhost:8080/user/favbooks/${localStorage.getItem('userid')}/${bookid}`,config);
             navigate(`/user/${localStorage.getItem('userid')}`);
         }
 

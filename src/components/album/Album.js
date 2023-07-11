@@ -9,7 +9,11 @@ export default function Album() {
     const [hasError, setHasError] = useState(false);
     const [defname, setDefname] = useState('Set Favorite');
     const [isReady, setIsReady] = useState(false);
-
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    };
     let navigate=useNavigate()
     useEffect(() => {
         loadUser();
@@ -25,11 +29,7 @@ export default function Album() {
 
     const loadUser = async () => {
         try {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            };
+
 
             const endpointUrl1 = `http://localhost:8080/album/${albumid}`;
             const endpointUrl= `http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}`;
@@ -58,15 +58,15 @@ export default function Album() {
     const onPress= async (e)=>{
         e.preventDefault();
         if (defname === "Remove Favorite"){
-            const response = await axios.get(`http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}`);
+            const response = await axios.get(`http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}`,config);
             if (response.data.length === 1){
                 alert("You need at least 1 favorite")
             }else {
-                await axios.delete(`http://localhost:8080/user/favalbums/delete/${localStorage.getItem('userid')}/${albumid}`);
+                await axios.delete(`http://localhost:8080/user/favalbums/delete/${localStorage.getItem('userid')}/${albumid}`,config);
                 navigate(`/user/${localStorage.getItem('userid')}`)
             }
             }else if (defname === "Set Favorite"){
-            await axios.put(`http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}/${albumid}`);
+            await axios.put(`http://localhost:8080/user/favalbums/${localStorage.getItem('userid')}/${albumid}`,config);
             navigate(`/user/${localStorage.getItem('userid')}`);
         }
 
