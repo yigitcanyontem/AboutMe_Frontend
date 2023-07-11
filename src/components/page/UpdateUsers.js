@@ -42,7 +42,7 @@ export default function UpdateUsers() {
 
         const endpointUrl = `http://localhost:8080/user/update`;
 
-        const result = await axios.put(endpointUrl, assign, config).catch((error) => {});
+        const result = await axios.patch(endpointUrl, assign, config).catch((error) => {});
 
         e.preventDefault();
         navigate(`/user/${localStorage.getItem('userid')}`);
@@ -151,22 +151,22 @@ export default function UpdateUsers() {
                                     <div className="form-group mb-3">
                                         <label htmlFor="instagramuser">Instagram User</label>
                                         <input type="text" className="form-control" id="instagramuser"
-                                               value={instagramuser}   name="instagramuser" placeholder={socialMedia.instagramuser} onChange={(e)=>onInputChange(e)}/>
+                                               value={instagramuser}   name="instagramuser" placeholder={socialMedia.instagram} onChange={(e)=>onInputChange(e)}/>
                                     </div>
                                     <div className="form-group mb-3">
                                         <label htmlFor="pinterestuser">Pinterest User</label>
                                         <input type="text" className="form-control" id="pinterestuser"
-                                               value={pinterestuser}    name="pinterestuser" placeholder={socialMedia.pinterestuser} onChange={(e)=>onInputChange(e)}/>
+                                               value={pinterestuser}    name="pinterestuser" placeholder={socialMedia.pinterest} onChange={(e)=>onInputChange(e)}/>
                                     </div>
                                     <div className="form-group mb-3">
                                         <label htmlFor="linkedinuser">LinkedIn User</label>
                                         <input type="text" className="form-control" id="linkedinuser"
-                                               value={linkedinuser} name="linkedinuser" placeholder={socialMedia.linkedinuser} onChange={(e)=>onInputChange(e)}/>
+                                               value={linkedinuser} name="linkedinuser" placeholder={socialMedia.linkedin} onChange={(e)=>onInputChange(e)}/>
                                     </div>
                                     <div className="form-group mb-3">
                                         <label htmlFor="twitteruser">Twitter User</label>
                                         <input type="text" className="form-control" id="twitteruser" name="twitteruser"
-                                               value={twitteruser}  placeholder={socialMedia.twitteruser} onChange={(e)=>onInputChange(e)}/>
+                                               value={twitteruser}  placeholder={socialMedia.twitter} onChange={(e)=>onInputChange(e)}/>
                                     </div>
                                     <div className="row gutters">
                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
