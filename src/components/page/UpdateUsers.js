@@ -10,13 +10,19 @@ export default function UpdateUsers() {
     let [albums, setAlbums] = useState([]);
     let [socialMedia, setSocialMedia] = useState([]);
     let [descriptions, setDescriptions] = useState([]);
+    let [images, setImages] = useState([]);
     let navigate=useNavigate()
 
     const [isReady, setIsReady] = React.useState(false);
     useEffect(() => {
         loadUsers();
+        getImage();
     }, []);
-
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    };
 
     const [assign,setAssign] = useState({
         username:"",
@@ -34,12 +40,6 @@ export default function UpdateUsers() {
     }
 
     const onSubmit= async (e)=>{
-        const config = {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            },
-        };
-
         const endpointUrl = `http://localhost:8080/user/update`;
 
         const result = await axios.patch(endpointUrl, assign, config).catch((error) => {});
@@ -49,11 +49,6 @@ export default function UpdateUsers() {
     }
 
     const fetchData = async (endpoint) =>{
-        const config = {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        };
         const endpointUrl =
             `http://localhost:8080/user/${endpoint}`
 
@@ -65,12 +60,41 @@ export default function UpdateUsers() {
         e.preventDefault();
         const confirmDelete = window.confirm("Are you sure you want to delete your account?");
         if (confirmDelete) {
-            await axios.delete(`http://localhost:8080/user/delete/${localStorage.getItem('userid')}`);
+            await axios.delete(`http://localhost:8080/user/delete/${localStorage.getItem('userid')}`, config);
             localStorage.removeItem('userid');
             navigate(`/`);
         }
     }
+    const handleFileUpload = async (e) => {
 
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+
+        await axios
+            .post(`http://localhost:8080/user/upload/${localStorage.getItem('userid')}`, formData, config)
+            .then((response) => {
+                console.log('File uploaded successfully:', response.data);
+            })
+            .catch((error) => {
+                console.error('Error uploading file:', error);
+            });
+    }
+
+    const getImage = () => {
+        fetch(`http://localhost:8080/user/images/${localStorage.getItem('userid')}`, config)
+            .then((response) => response.blob())
+            .then((blob) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImages(reader.result);
+                };
+                reader.readAsDataURL(blob);
+            })
+            .catch((error) => {
+                console.log(error); // Handle any errors
+            });
+    };
     const loadUsers = async () => {
         const usersData = fetchData(`${localStorage.getItem('userid')}`);
         const moviesData = fetchData(`favmovie/${localStorage.getItem('userid')}`);
@@ -80,7 +104,7 @@ export default function UpdateUsers() {
         const socialMediaData = fetchData(`socialmedia/${localStorage.getItem('userid')}`);
         const descriptionData = fetchData(`description/${localStorage.getItem('userid')}`);
 
-        [users,movies,shows,books,albums,socialMedia,descriptions] = await Promise.all([usersData,moviesData,showsData,booksData,albumsData,socialMediaData,descriptionData])
+        [users,movies,shows,books,albums,socialMedia,descriptions] = await Promise.all([usersData,moviesData,showsData,booksData,albumsData,socialMediaData,descriptionData],config)
 
         setUsers(users)
         setMovies(movies)
@@ -111,7 +135,7 @@ export default function UpdateUsers() {
                         <div className="card h-100">
                             <div className="card-body">
                                     <div className={"text-black "}>
-                                            <img className={'portrait mb-2'} src={`https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81pRtNTxSCgYSMPwz1ocAXGYgyjUhjkx62K1A7FCqJxaqVNMaSe5-uHrK2HNIHuxBjbUod09NN58xAvmdTneRyvhWH2q=w1920-h1080`} alt={"portrait"}/>
+                                        <img className={'portraitupdate mb-2 '} src={images} alt={"portrait"} />
                                         <ul className={"text-start"}>
                                             <li>
                                                 <p>Username: {users.username}</p>
@@ -143,6 +167,17 @@ export default function UpdateUsers() {
                             <div className="card-body">
                                 <h1 className={"display-5"}>Account Details</h1>
                                 <form onSubmit={(e)=>onSubmit(e)}>
+                                    <div className="form-group mb-3">
+                                        <label htmlFor="profileImage">Profile Image (JPG)</label>
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            id="profileImage"
+                                            name="profileImage"
+                                            accept="image/jpeg"
+                                            onChange={(e) => handleFileUpload(e)}
+                                        />
+                                    </div>
                                     <div className="form-group mb-3">
                                         <label htmlFor="description">Description</label>
                                         <textarea className="form-control" id="description" name="description" rows="3"

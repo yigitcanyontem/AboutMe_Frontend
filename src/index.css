@@ -95,12 +95,17 @@ code {
 }
 
 .portrait{
-  max-height: 280px;
-  width: auto;
+  border-radius: 15px;
+  max-height: 300px;
+  max-width: 300px;;
+  transition: transform 0.2s ease-in-out;
+}
+
+.portraitupdate{
+  width: 100%;
   background-color: rgb(182,173,168);
   align-content: center;
 }
-
 .social-icons {
   justify-content: space-between;
   align-items: center;

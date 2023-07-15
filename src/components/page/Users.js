@@ -12,20 +12,22 @@ export default function Users() {
     let [books,  setBooks] = useState([]);
     let [albums, setAlbums] = useState([]);
     let [socialMedia, setSocialMedia] = useState([]);
+    let [images, setImages] = useState([]);
     let [description, setDescription] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
     const [hasError, setHasError] = React.useState();
     let { usersid } = useParams();
     useEffect(() => {
         loadUsers();
+        getImage()
     }, []);
-
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    };
     const fetchData = async (endpoint) =>{
-        const config = {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-        };
+
 
         const endpointUrl = `http://localhost:8080/user/${endpoint}`;
 
@@ -63,7 +65,20 @@ export default function Users() {
         setIsReady(true)
         document.title = users.username
     };
-
+    const getImage = () => {
+        fetch(`http://localhost:8080/user/images/${localStorage.getItem('userid')}`, config)
+            .then((response) => response.blob())
+            .then((blob) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setImages(reader.result);
+                };
+                reader.readAsDataURL(blob);
+            })
+            .catch((error) => {
+                console.log(error); // Handle any errors
+            });
+    };
 
     if (hasError){
         return(
@@ -98,7 +113,7 @@ export default function Users() {
                     </div>
 
                     <div className={"text-light list_container mt-5"}>
-                        <img className={'portrait'} src={`https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png`} alt={"portrait"}/>
+                       <img className={'portrait'} src={images} alt={"portrait"} />
                         <ul className={"text-start"}>
                             <li>
                                 <p>Username: {users.username}</p>

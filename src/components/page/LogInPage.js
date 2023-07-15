@@ -46,7 +46,6 @@ function LogInPage() {
                             <button type="submit" className="btn btn-success">Log In</button>
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
