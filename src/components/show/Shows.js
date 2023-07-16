@@ -6,6 +6,7 @@ export default function Shows() {
     const [shows, setShows] = useState([]);
     let { showname,usersid } = useParams();
     const [isReady, setIsReady] = React.useState(false);
+    const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
         loadUser();
@@ -22,9 +23,13 @@ export default function Shows() {
         const endpointUrl =
             `http://localhost:8080/search/tv/${showname}`
 
-        const result = await axios.get(endpointUrl, config).catch((error) => {});
-
-        setShows(result.data);
+        await axios.get(endpointUrl, config).then((result) => {
+            setShows(result.data);
+        }).catch((error) => {
+            if (error.response.data.message === "No Show Found"){
+                setHasError(true);
+            }
+        });
         setIsReady(true)
     };
 
@@ -37,14 +42,24 @@ export default function Shows() {
             </div>
         )
     }
+    if (hasError){
+        return (
+            <div className={"page"}>
+                <div className="container ">
+                    <h2 className="text-center mx-auto display-2 text-light">No Show Found</h2>
+                    <br/>
+                </div>
+            </div>
 
+        );
+    }else {
     return (
         <div className={"page"}>
             <div className="container ">
                 <h2 className="text-center text-light mt-2 display-6">Shows</h2>
                 <div className={''}>
                     {shows.map(show =>
-                        <a target="_blank" href={`/tv/${show.id}`}>
+                        <a href={`/tv/${show.id}`}>
                             <img className={'search_img'} src={`${show.poster_path}`} alt={"show"}/>
                         </a>
                     )}
@@ -53,7 +68,7 @@ export default function Shows() {
             </div>
         </div>
     );
-
+    }
 }
 
 

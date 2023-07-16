@@ -5,6 +5,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 export default function Books() {
     const [books, setBooks] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
+    const [hasError, setHasError] = useState(false);
 
     let { bookname } = useParams();
     useEffect(() => {
@@ -22,9 +23,13 @@ export default function Books() {
         const endpointUrl =
             `http://localhost:8080/search/book/${bookname}`;
 
-        const result = await axios.get(endpointUrl, config).catch((error) => {});
-
-        setBooks(result.data);
+        await axios.get(endpointUrl, config).then((result) => {
+            setBooks(result.data);
+        }).catch((error) => {
+            if (error.response.data.message === "No Book Found"){
+                setHasError(true);
+            }
+        });
         setIsReady(true)
     };
 
@@ -37,14 +42,24 @@ export default function Books() {
             </div>
         )
     }
+    if (hasError){
+        return (
+            <div className={"page"}>
+                <div className="container ">
+                    <h2 className="text-center mx-auto display-2 text-light">No Book Found</h2>
+                    <br/>
+                </div>
+            </div>
 
+        );
+    }else {
     return (
         <div className={"page"}>
             <div className="container ">
                 <h2 className="text-center text-light mt-2 display-6">Books</h2>
                 <div className={''}>
                     {books.map(book =>
-                        <a target="_blank" href={`/book/${book.id}`}>
+                        <a href={`/book/${book.id}`}>
                             <img className={'search_img'} src={`${book.cover_url}`} alt={"movie"}/>
                         </a>
                     )}
@@ -53,6 +68,7 @@ export default function Books() {
             </div>
         </div>
     );
+    }
 }
 
 

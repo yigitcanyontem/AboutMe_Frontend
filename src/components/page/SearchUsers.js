@@ -5,6 +5,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 export default function SearchUsers() {
     const [users, setUsers] = useState([]);
     const [isReady, setIsReady] = React.useState(false);
+    const [hasError, setHasError] = useState(false);
 
     let { username } = useParams();
     useEffect(() => {
@@ -21,8 +22,13 @@ export default function SearchUsers() {
         };
         const endpointUrl = `http://localhost:8080/search/user/${username}`;
 
-        const result = await axios.get(endpointUrl, config).catch((error) => {});
-        setUsers(result.data);
+        await axios.get(endpointUrl, config).then((result) => {
+            setUsers(result.data);
+        }).catch((error) => {
+            if (error.response.data.message === "No Users Found"){
+                setHasError(true);
+            }
+        });
         setIsReady(true)
     };
 
@@ -35,7 +41,17 @@ export default function SearchUsers() {
             </div>
         )
     }
+    if (hasError){
+        return (
+            <div className={"page"}>
+                <div className="container ">
+                    <h2 className="text-center mx-auto display-2 text-light">No Album Found</h2>
+                    <br/>
+                </div>
+            </div>
 
+        );
+    }else {
     return (
         <div className={"page"}>
             <div className="container ">
@@ -53,6 +69,7 @@ export default function SearchUsers() {
             </div>
         </div>
     );
+    }
 }
 
 
